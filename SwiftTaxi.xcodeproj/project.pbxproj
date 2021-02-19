@@ -24,6 +24,7 @@
 		97BB57C225DFDBB700F8E80D /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57C125DFDBB700F8E80D /* Place.swift */; };
 		97BB57CE25DFDCFA00F8E80D /* CommonDestinationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */; };
 		97BB57D425DFEC7F00F8E80D /* DestinationDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57D325DFEC7F00F8E80D /* DestinationDashboard.swift */; };
+		97BB57DC25E009E800F8E80D /* DestinationDashboardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57DB25E009E800F8E80D /* DestinationDashboardReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		97BB57C125DFDBB700F8E80D /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDestinationReducer.swift; sourceTree = "<group>"; };
 		97BB57D325DFEC7F00F8E80D /* DestinationDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationDashboard.swift; sourceTree = "<group>"; };
+		97BB57DB25E009E800F8E80D /* DestinationDashboardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationDashboardReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				97BB57D325DFEC7F00F8E80D /* DestinationDashboard.swift */,
+				97BB57DB25E009E800F8E80D /* DestinationDashboardReducer.swift */,
 			);
 			path = DestinationDashboard;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				97B8995B25DF96D500F4E195 /* AppDelegate.swift in Sources */,
 				97B8995D25DF96D500F4E195 /* SceneDelegate.swift in Sources */,
 				97BB57D425DFEC7F00F8E80D /* DestinationDashboard.swift in Sources */,
+				97BB57DC25E009E800F8E80D /* DestinationDashboardReducer.swift in Sources */,
 				97B899A725DFC4DA00F4E195 /* AppReducer.swift in Sources */,
 				97B8999D25DFC46D00F4E195 /* AppAction.swift in Sources */,
 				97B8995F25DF96D500F4E195 /* ContentView.swift in Sources */,

@@ -7,6 +7,10 @@
 
 import Foundation
 
-struct Place: Equatable {
+struct Place: Equatable, Identifiable, Hashable {
+    var id: String {
+        return name
+    }
+    
     let name: String
 }

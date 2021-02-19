@@ -24,7 +24,7 @@ struct CommonDestinationView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack {
-                Text("Location das ddad dw  dw ad d da dw daw dwa dw aw")
+                Text(viewStore.name)
                     .font(.caption)
                     .lineLimit(nil)
                     .padding([.top, .leading, .trailing], 4.0)

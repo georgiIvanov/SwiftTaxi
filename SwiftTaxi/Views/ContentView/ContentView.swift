@@ -17,11 +17,15 @@ struct ContentView: View {
             // Map Here
             Rectangle()
                 .fill(Color.green)
-
+            
             VStack {
                 Spacer()
-                DestinationDashboard()
-                    .frame(maxHeight: 300)
+                DestinationDashboard(
+                    store: store.scope(state: { $0.destinationDashboardState },
+                                       action: { .destinationDashboard($0) }
+                    )
+                )
+                .frame(maxHeight: 300)
             }
             .ignoresSafeArea()
         }
@@ -30,7 +34,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(store: Store(initialState: AppState(),
+        ContentView(store: Store(initialState: AppState.mock,
                                  reducer: appReducer,
                                  environment: .mock))
     }
