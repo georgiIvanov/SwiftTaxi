@@ -8,11 +8,12 @@
 import CoreLocation
 import Foundation
 
-enum AppAction {
+enum AppAction: Equatable {
     case destinationDashboard(DestinationDashboardAction)
     
     case startUp
     case locationAuthorizationStatusResponse(CLAuthorizationStatus)
     case dismissAuthorizationStateAlert
     case requestedAuthorization
+    case dashboardShown(Bool)
 }

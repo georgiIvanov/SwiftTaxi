@@ -9,10 +9,11 @@ import ComposableArchitecture
 import CoreLocation
 import Foundation
 
-struct AppState: Equatable {
+struct AppState: Equatable {    
     var alert: AlertState<AppAction>?
     var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
     var destinationDashboardState: DestinationDashboardState = DestinationDashboardState(places: [])
+    var dashboardShown: Bool
 }
 
 extension AppState {
@@ -30,13 +31,9 @@ extension AppState {
                     Place.lidl,
                     Place.mallBulgaria,
                 ]
-            )
+            ),
+            dashboardShown: false
         )
     }()
     
-}
-
-func == (lhs: AppState, rhs: AppState) -> Bool {
-    lhs.locationAuthorizationStatus == rhs.locationAuthorizationStatus &&
-        lhs.alert?.id == rhs.alert?.id
 }

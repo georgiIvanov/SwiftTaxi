@@ -61,5 +61,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
         return .none
     case .destinationDashboard(_):
         return .none
+    case let .dashboardShown(shown):
+        state.dashboardShown = shown
+        return .none
     }
 }

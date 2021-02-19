@@ -12,30 +12,36 @@ import SwiftUI
 struct ContentView: View {
     let store: Store<AppState, AppAction>
     @ObservedObject var viewStore: ViewStore<AppState, AppAction>
-
+    @State var region = MKCoordinateRegion.sofia
+    
     init(store: Store<AppState, AppAction>) {
         self.store = store
-        viewStore = ViewStore(store)
+        self.viewStore = ViewStore(store)
         viewStore.send(.startUp)
     }
-
-    @State var region = MKCoordinateRegion.sofia
+    
     var body: some View {
-        ZStack {
-            MapView(region: $region)
-                .ignoresSafeArea()
-            VStack {
-                Spacer()
-                DestinationDashboard(
-                    store: store.scope(state: { $0.destinationDashboardState },
-                                       action: { .destinationDashboard($0) }
-                    )
-                )
-                .frame(maxHeight: 300)
+        GeometryReader { geometry in
+            ZStack {
+                MapView(region: $region)
+                    .ignoresSafeArea()
+                VStack {
+                    BottomSheetView(
+                        isOpen: viewStore.binding(get: { $0.dashboardShown },
+                                                  send: {.dashboardShown($0) }),
+                        maxHeight: geometry.size.height
+                    ) {
+                        DestinationDashboard(
+                            store: store.scope(state: { $0.destinationDashboardState },
+                                               action: { .destinationDashboard($0) }
+                            )
+                        )
+                    }
+                }
+                .ignoresSafeArea(.container, edges: .bottom)
             }
-            .ignoresSafeArea(.container, edges: .bottom)
+            .alert(self.store.scope(state: { $0.alert }), dismiss: .dismissAuthorizationStateAlert)
         }
-        .alert(self.store.scope(state: { $0.alert }), dismiss: .dismissAuthorizationStateAlert)
     }
 }
 
