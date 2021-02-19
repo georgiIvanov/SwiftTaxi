@@ -47,7 +47,7 @@ struct CommonDestinationView: View {
     }
 }
 
-extension View {
+fileprivate extension View {
     func withSize(_ size: CommonDestinationView.Size) -> some View {
         let height: CGFloat = 90
         var width: CGFloat = 160
