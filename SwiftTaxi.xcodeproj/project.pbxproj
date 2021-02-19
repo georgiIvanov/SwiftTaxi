@@ -16,6 +16,10 @@
 		97B8997225DF96D600F4E195 /* SwiftTaxiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8997125DF96D600F4E195 /* SwiftTaxiTests.swift */; };
 		97B8997D25DF96D600F4E195 /* SwiftTaxiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8997C25DF96D600F4E195 /* SwiftTaxiUITests.swift */; };
 		97B8999325DF9BDF00F4E195 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 97B8999225DF9BDF00F4E195 /* ComposableArchitecture */; };
+		97B8999825DFC44400F4E195 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8999725DFC44400F4E195 /* AppState.swift */; };
+		97B8999D25DFC46D00F4E195 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8999C25DFC46D00F4E195 /* AppAction.swift */; };
+		97B899A225DFC49200F4E195 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B899A125DFC49200F4E195 /* AppEnvironment.swift */; };
+		97B899A725DFC4DA00F4E195 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B899A625DFC4DA00F4E195 /* AppReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,10 @@
 		97B8997C25DF96D600F4E195 /* SwiftTaxiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTaxiUITests.swift; sourceTree = "<group>"; };
 		97B8997E25DF96D600F4E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97B8998D25DF97B300F4E195 /* SwiftTaxi.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftTaxi.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		97B8999725DFC44400F4E195 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		97B8999C25DFC46D00F4E195 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
+		97B899A125DFC49200F4E195 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		97B899A625DFC4DA00F4E195 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				97B8998D25DF97B300F4E195 /* SwiftTaxi.playground */,
+				97B899AB25DFC56D00F4E195 /* App */,
 				97B8995A25DF96D500F4E195 /* AppDelegate.swift */,
 				97B8995C25DF96D500F4E195 /* SceneDelegate.swift */,
 				97B8995E25DF96D500F4E195 /* ContentView.swift */,
@@ -138,6 +147,17 @@
 				97B8997E25DF96D600F4E195 /* Info.plist */,
 			);
 			path = SwiftTaxiUITests;
+			sourceTree = "<group>";
+		};
+		97B899AB25DFC56D00F4E195 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				97B8999725DFC44400F4E195 /* AppState.swift */,
+				97B8999C25DFC46D00F4E195 /* AppAction.swift */,
+				97B899A125DFC49200F4E195 /* AppEnvironment.swift */,
+				97B899A625DFC4DA00F4E195 /* AppReducer.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,7 +298,11 @@
 			files = (
 				97B8995B25DF96D500F4E195 /* AppDelegate.swift in Sources */,
 				97B8995D25DF96D500F4E195 /* SceneDelegate.swift in Sources */,
+				97B899A725DFC4DA00F4E195 /* AppReducer.swift in Sources */,
+				97B8999D25DFC46D00F4E195 /* AppAction.swift in Sources */,
 				97B8995F25DF96D500F4E195 /* ContentView.swift in Sources */,
+				97B8999825DFC44400F4E195 /* AppState.swift in Sources */,
+				97B899A225DFC49200F4E195 /* AppEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
