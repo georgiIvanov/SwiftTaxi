@@ -5,9 +5,13 @@
 //  Created by Voro on 19.02.21.
 //
 
+import ComposableArchitecture
+import CoreLocation
 import Foundation
 
 struct AppState: Equatable {
+    var alert: AlertState<AppAction>?
+    var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
     var destinationDashboardState: DestinationDashboardState = DestinationDashboardState(places: [])
 }
 
@@ -16,12 +20,23 @@ extension AppState {
         AppState(
             destinationDashboardState: DestinationDashboardState(
                 places: [
-                    Place(name: "Fu1"),
-                    Place(name: "Fu2"),
-                    Place(name: "Fu3"),
-                    Place(name: "Fu4"),
+                    Place.banichki,
+                    Place.lidl,
+                    Place.mallBulgaria,
+                    Place.banichki,
+                    Place.lidl,
+                    Place.mallBulgaria,
+                    Place.banichki,
+                    Place.lidl,
+                    Place.mallBulgaria,
                 ]
             )
         )
     }()
+    
+}
+
+func == (lhs: AppState, rhs: AppState) -> Bool {
+    lhs.locationAuthorizationStatus == rhs.locationAuthorizationStatus &&
+        lhs.alert?.id == rhs.alert?.id
 }

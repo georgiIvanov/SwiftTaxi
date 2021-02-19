@@ -66,7 +66,7 @@ fileprivate extension View {
 
 struct CommonDestinationView_Previews: PreviewProvider {
     static var previews: some View {
-        CommonDestinationView(store: Store(initialState: Place(name: "Fuuuu"),
+        CommonDestinationView(store: Store(initialState: .mallBulgaria,
                                     reducer: commonDestinationReducer,
                                     environment: ()))
 //            .edgesIgnoringSafeArea(.all)

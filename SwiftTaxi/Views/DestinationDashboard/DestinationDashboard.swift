@@ -88,10 +88,10 @@ struct DestinationDashboard_Previews: PreviewProvider {
     static var state: DestinationDashboardState {
         DestinationDashboardState(
             places: [
-                Place(name: "Fu"),
-                Place(name: "Fu2"),
-                Place(name: "Fu3"),
-                Place(name: "Fu4"),
+                Place.banichki,
+                Place.banichki,
+                Place.banichki,
+                Place.banichki,
             ])
     }
     

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4464409825DFD08900C48303 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4464409725DFD08900C48303 /* MapView.swift */; };
+		446440A725DFF5B700C48303 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446440A625DFF5B700C48303 /* LocationManager.swift */; };
 		97B8995B25DF96D500F4E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8995A25DF96D500F4E195 /* AppDelegate.swift */; };
 		97B8995D25DF96D500F4E195 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8995C25DF96D500F4E195 /* SceneDelegate.swift */; };
 		97B8995F25DF96D500F4E195 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8995E25DF96D500F4E195 /* ContentView.swift */; };
@@ -45,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4464409725DFD08900C48303 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		446440A625DFF5B700C48303 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		97B8995725DF96D500F4E195 /* SwiftTaxi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftTaxi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97B8995A25DF96D500F4E195 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97B8995C25DF96D500F4E195 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +101,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4464409625DFD07E00C48303 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4464409725DFD08900C48303 /* MapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		97B8994E25DF96D500F4E195 = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +189,7 @@
 			children = (
 				97BB57D225DFEC1A00F8E80D /* DestinationDashboard */,
 				97BB57C925DFDC2300F8E80D /* CommonDestination */,
+				4464409625DFD07E00C48303 /* Map */,
 				97BB579F25DFC7C000F8E80D /* ContentView */,
 			);
 			path = Views;
@@ -193,6 +206,7 @@
 		97BB57A025DFC7CE00F8E80D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				446440A625DFF5B700C48303 /* LocationManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -361,6 +375,7 @@
 			files = (
 				97BB57AC25DFCD7B00F8E80D /* CommonDestinationView.swift in Sources */,
 				97B8995B25DF96D500F4E195 /* AppDelegate.swift in Sources */,
+				4464409825DFD08900C48303 /* MapView.swift in Sources */,
 				97B8995D25DF96D500F4E195 /* SceneDelegate.swift in Sources */,
 				97BB57D425DFEC7F00F8E80D /* DestinationDashboard.swift in Sources */,
 				97BB57DC25E009E800F8E80D /* DestinationDashboardReducer.swift in Sources */,
@@ -371,6 +386,7 @@
 				97BB57C225DFDBB700F8E80D /* Place.swift in Sources */,
 				97B8999825DFC44400F4E195 /* AppState.swift in Sources */,
 				97B899A225DFC49200F4E195 /* AppEnvironment.swift in Sources */,
+				446440A725DFF5B700C48303 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,9 +556,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTaxi/Preview Content\"";
+				DEVELOPMENT_TEAM = GA6RL8FL52;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftTaxi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -561,9 +578,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTaxi/Preview Content\"";
+				DEVELOPMENT_TEAM = GA6RL8FL52;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftTaxi/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
