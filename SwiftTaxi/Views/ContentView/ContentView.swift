@@ -33,7 +33,7 @@ struct ContentView: View {
                 )
                 .frame(maxHeight: 300)
             }
-            .ignoresSafeArea()
+            .ignoresSafeArea(.container, edges: .bottom)
         }
         .alert(self.store.scope(state: { $0.alert }), dismiss: .dismissAuthorizationStateAlert)
     }

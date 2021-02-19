@@ -13,11 +13,6 @@ enum CommonDestinationAction {
 }
 
 struct CommonDestinationView: View {
-    enum Size {
-        case s
-        case m
-        case l
-    }
     
     let store: Store<Place, CommonDestinationAction>
     
@@ -39,28 +34,10 @@ struct CommonDestinationView: View {
                 }
             }.padding(0)
             .background(Color.green.opacity(0.5))
-            .withSize(.m)
             .onTapGesture {
                 viewStore.send(.setDestination(viewStore.state))
             }
         }
-    }
-}
-
-fileprivate extension View {
-    func withSize(_ size: CommonDestinationView.Size) -> some View {
-        let height: CGFloat = 90
-        var width: CGFloat = 160
-        switch size {
-        case .s:
-            width = 90
-        case .m:
-            width = 140
-        case .l:
-            width = 200
-        }
-        
-        return frame(width: width, height: height, alignment: .center)
     }
 }
 
@@ -69,8 +46,6 @@ struct CommonDestinationView_Previews: PreviewProvider {
         CommonDestinationView(store: Store(initialState: .mallBulgaria,
                                     reducer: commonDestinationReducer,
                                     environment: ()))
-//            .edgesIgnoringSafeArea(.all)
             .previewLayout(.sizeThatFits)
-//            .frame(width: 100.0, height: 100.0)
     }
 }

@@ -55,12 +55,12 @@ struct DestinationDashboard: View {
                             CommonDestinationView(store: Store(initialState: place,
                                                        reducer: commonDestinationReducer,
                                                        environment: ()))
+                                .padding(4)
+                                .frame(maxWidth: 150, maxHeight: 120)
                         }
                     }
-                    
-
+                    .padding([.leading, .trailing], 8)
                 }
-                
                 
                 Spacer()
             }
