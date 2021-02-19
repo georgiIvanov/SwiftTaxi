@@ -8,27 +8,10 @@
 import MapKit
 import SwiftUI
 
-struct Place: Identifiable {
-    var id = UUID()
-    let name: String
-    let latitude: Double
-    let longitude: Double
-
-    var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    }
-}
-
 struct MapView: View {
     @Environment(\.presentationMode) var presentationMode
 
-    let places = [
-        Place(name: "Banichki", latitude: 42.678750656166784, longitude: 23.28562151394663),
-        Place(name: "Lidl",
-              latitude: 42.67029470660005,
-              longitude: 23.2785190240458),
-        Place(name: "Mall bulgaria", latitude: 42.66382544465565, longitude: 23.288910046317582)
-    ]
+    let places: [Place] = [.banichki, .lidl, .mallBulgaria]
 
     @Binding var region: MKCoordinateRegion
 

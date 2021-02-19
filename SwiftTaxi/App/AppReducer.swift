@@ -47,7 +47,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
             return .none
 
         case .authorizedAlways, .authorizedWhenInUse:
-            state.alert = .init(title: .init("SUCCESS. You are GAME!"))
+//            state.alert = .init(title: .init("SUCCESS. You are GAME!"))
             return .none
 
         @unknown default:
