@@ -111,10 +111,12 @@
 			isa = PBXGroup;
 			children = (
 				97B8998D25DF97B300F4E195 /* SwiftTaxi.playground */,
+				97BB57A025DFC7CE00F8E80D /* Utilities */,
 				97B899AB25DFC56D00F4E195 /* App */,
+				97BB57A125DFC7F700F8E80D /* Models */,
+				97BB579E25DFC7B500F8E80D /* Views */,
 				97B8995A25DF96D500F4E195 /* AppDelegate.swift */,
 				97B8995C25DF96D500F4E195 /* SceneDelegate.swift */,
-				97B8995E25DF96D500F4E195 /* ContentView.swift */,
 				97B8996025DF96D600F4E195 /* Assets.xcassets */,
 				97B8996525DF96D600F4E195 /* LaunchScreen.storyboard */,
 				97B8996825DF96D600F4E195 /* Info.plist */,
@@ -158,6 +160,36 @@
 				97B899A625DFC4DA00F4E195 /* AppReducer.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		97BB579E25DFC7B500F8E80D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				97BB579F25DFC7C000F8E80D /* ContentView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		97BB579F25DFC7C000F8E80D /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				97B8995E25DF96D500F4E195 /* ContentView.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		97BB57A025DFC7CE00F8E80D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		97BB57A125DFC7F700F8E80D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
