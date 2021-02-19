@@ -11,6 +11,8 @@ import Foundation
 
 struct AppState: Equatable {
     var alert: AlertState<AppAction>?
+    var currentLocationName: String?
+    var currentPlacemark: CLPlacemark?
     var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
     var destinationDashboardState: DestinationDashboardState = DestinationDashboardState(places: [])
 }

@@ -16,12 +16,16 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
         return environment.locationManager
             .initialisation(LocationManagerId())
             .receive(on: environment.mainQueue)
-            .map { switch $0 {
-            case .authorizationDidChange(let status):
-                return .locationAuthorizationStatusResponse(status)
-            } }
+            .catchToEffect()
+            .map(AppAction.locationManagerResponse)
             .eraseToEffect()
 
+    case .updateCurrentLocation(let placemark, let name):
+        state.currentPlacemark = placemark
+        state.currentLocationName = name
+        state.alert = .init(title: .init("SUCCESS. You are at \(name)!"))
+
+        return .none
     case .locationAuthorizationStatusResponse(let status):
         state.locationAuthorizationStatus = status
 
@@ -29,8 +33,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
         case .notDetermined:
             return environment.locationManager
                 .requestAuthorization(LocationManagerId())
-                .map { AppAction.requestedAuthorization }
-                .eraseToEffect()
+                .fireAndForget()
 
         case .denied:
             state.alert = .init(
@@ -47,8 +50,9 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
             return .none
 
         case .authorizedAlways, .authorizedWhenInUse:
-//            state.alert = .init(title: .init("SUCCESS. You are GAME!"))
-            return .none
+            return environment.locationManager
+                .requestSingleLocation(LocationManagerId())
+                .fireAndForget()
 
         @unknown default:
             return .none
@@ -59,7 +63,20 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
     case .dismissAuthorizationStateAlert:
         state.alert = nil
         return .none
-    case .destinationDashboard(_):
+    case .destinationDashboard:
         return .none
+    case .locationManagerResponse(let result):
+        switch result {
+        case .success(let value):
+            switch value {
+            case .authorizationDidChange(let status):
+                return .init(value: .locationAuthorizationStatusResponse(status))
+            case .currentLocationDidChange(let placemark, let friendlyName):
+                return .init(value: .updateCurrentLocation(placemark: placemark, name: friendlyName))
+            }
+        case .failure(let error):
+            state.alert = .init(title: TextState(verbatim: error.localizedDescription))
+            return .none
+        }
     }
 }

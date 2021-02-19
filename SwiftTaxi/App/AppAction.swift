@@ -15,4 +15,6 @@ enum AppAction {
     case locationAuthorizationStatusResponse(CLAuthorizationStatus)
     case dismissAuthorizationStateAlert
     case requestedAuthorization
+    case updateCurrentLocation(placemark: CLPlacemark, name: String)
+    case locationManagerResponse(Result<LocationManager.Action, LocationManager.Error>)
 }
