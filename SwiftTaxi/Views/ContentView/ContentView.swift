@@ -5,18 +5,25 @@
 //  Created by Voro on 19.02.21.
 //
 
-import SwiftUI
 import ComposableArchitecture
+import MapKit
+import SwiftUI
 
 struct ContentView: View {
-    
     let store: Store<AppState, AppAction>
-    
+    @ObservedObject var viewStore: ViewStore<AppState, AppAction>
+
+    init(store: Store<AppState, AppAction>) {
+        self.store = store
+        viewStore = ViewStore(store)
+        viewStore.send(.startUp)
+    }
+
+    @State var region = MKCoordinateRegion.sofia
     var body: some View {
         ZStack {
-            // Map Here
-            Rectangle()
-                .fill(Color.green)
+            MapView(region: $region)
+                .ignoresSafeArea()
 
             VStack {
                 Spacer()
@@ -25,6 +32,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
         }
+        .alert(self.store.scope(state: { $0.alert }), dismiss: .dismissAuthorizationStateAlert)
     }
 }
 
