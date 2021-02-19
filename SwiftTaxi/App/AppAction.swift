@@ -10,11 +10,11 @@ import Foundation
 
 enum AppAction {
     case destinationDashboard(DestinationDashboardAction)
-    
     case startUp
     case locationAuthorizationStatusResponse(CLAuthorizationStatus)
     case dismissAuthorizationStateAlert
     case requestedAuthorization
-    case updateCurrentLocation(placemark: CLPlacemark, name: String)
+    case updateCurrentLocation(location: CLLocationCoordinate2D)
+    case updateCurrentLocationName(name: String)
     case locationManagerResponse(Result<LocationManager.Action, LocationManager.Error>)
 }

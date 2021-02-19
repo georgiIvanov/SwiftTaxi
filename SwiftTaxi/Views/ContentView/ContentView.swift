@@ -19,10 +19,9 @@ struct ContentView: View {
         viewStore.send(.startUp)
     }
 
-    @State var region = MKCoordinateRegion.sofia
     var body: some View {
         ZStack {
-            MapView(region: $region)
+            MapView(config: viewStore.map)
                 .ignoresSafeArea()
             VStack {
                 Spacer()

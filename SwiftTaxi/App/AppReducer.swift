@@ -20,10 +20,14 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
             .map(AppAction.locationManagerResponse)
             .eraseToEffect()
 
-    case .updateCurrentLocation(let placemark, let name):
-        state.currentPlacemark = placemark
+    case .updateCurrentLocation(let location):
+        state.currentLocation = location
+        state.map.location = location
+        return .none
+
+    case .updateCurrentLocationName(let name):
         state.currentLocationName = name
-        state.alert = .init(title: .init("SUCCESS. You are at \(name)!"))
+//        state.alert = .init(title: .init("SUCCESS. You are at \(name)!"))
 
         return .none
     case .locationAuthorizationStatusResponse(let status):
@@ -71,9 +75,12 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
             switch value {
             case .authorizationDidChange(let status):
                 return .init(value: .locationAuthorizationStatusResponse(status))
-            case .currentLocationDidChange(let placemark, let friendlyName):
-                return .init(value: .updateCurrentLocation(placemark: placemark, name: friendlyName))
+            case .currentLocationDidChange(let location):
+                return .init(value: .updateCurrentLocation(location: location))
+            case .currentLocationNameDidChange(let name):
+                return .init(value: .updateCurrentLocationName(name: name))
             }
+
         case .failure(let error):
             state.alert = .init(title: TextState(verbatim: error.localizedDescription))
             return .none

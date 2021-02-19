@@ -17,7 +17,8 @@ struct LocationManager {
 
     enum Action: Equatable {
         case authorizationDidChange(status: CLAuthorizationStatus)
-        case currentLocationDidChange(CLPlacemark, String)
+        case currentLocationDidChange(CLLocationCoordinate2D)
+        case currentLocationNameDidChange(String)
     }
 
     enum Error: Swift.Error, Equatable {
@@ -41,14 +42,19 @@ extension LocationManager {
 
                 let manager = CLLocationManager()
 
+                manager.desiredAccuracy = kCLLocationAccuracyBest
+
                 let geoCoder = CLGeocoder()
                 let delegate = LocationManagerDelegate(
                     geoCoder: geoCoder,
                     authorizationStatusDidChange: { status in
                         subscriber.send(.authorizationDidChange(status: status))
                     },
-                    currentLocation: { placemark, friendlyName in
-                        subscriber.send(.currentLocationDidChange(placemark, friendlyName))
+                    currentLocation: { location in
+                        subscriber.send(.currentLocationDidChange(location))
+                    },
+                    currentLocationName: { name in
+                        subscriber.send(.currentLocationNameDidChange(name))
                     },
                     errorHandler: { error in
                         subscriber.send(completion: .failure(.locationError(error)))
@@ -75,7 +81,7 @@ extension LocationManager {
         },
         requestSingleLocation: { id in
             .fireAndForget {
-                dependencies[id]?.locationManager.requestLocation()
+                dependencies[id]?.locationManager.startUpdatingLocation()
             }
         }
     )
@@ -93,16 +99,20 @@ private var dependencies: [AnyHashable: LocationDependencies] = [:]
 private class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
     let geoCoder: CLGeocoder
     var authorizationStatusDidChange: (CLAuthorizationStatus) -> Void
-    var currentLocation: (CLPlacemark, String) -> Void
+    var currentLocation: (CLLocationCoordinate2D) -> Void
+    var currentLocationName: (String) -> Void
+
     var errorHandler: (Swift.Error) -> Void
 
     init(geoCoder: CLGeocoder,
          authorizationStatusDidChange: @escaping (CLAuthorizationStatus) -> Void,
-         currentLocation: @escaping (CLPlacemark, String) -> Void,
+         currentLocation: @escaping (CLLocationCoordinate2D) -> Void,
+         currentLocationName: @escaping (String) -> Void,
          errorHandler: @escaping (Swift.Error) -> Void) {
         self.geoCoder = geoCoder
         self.authorizationStatusDidChange = authorizationStatusDidChange
         self.currentLocation = currentLocation
+        self.currentLocationName = currentLocationName
         self.errorHandler = errorHandler
     }
 
@@ -111,16 +121,19 @@ private class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let firstLocation = locations.first else {
+        guard let location = locations.last else {
             return
         }
 
-        geoCoder.reverseGeocodeLocation(firstLocation) { [weak self] places, _ in
-            guard let firstPlace = places?.first else {
+        currentLocation(location.coordinate)
+
+        geoCoder.reverseGeocodeLocation(location) { [weak self] places, _ in
+
+            guard let place = places?.first else {
                 return
             }
 
-            self?.currentLocation(firstPlace, firstPlace.abbreviation)
+            self?.currentLocationName(place.abbreviation)
         }
     }
 
@@ -160,3 +173,11 @@ extension CLPlacemark {
         return [subThoroughfare, thoroughfare].compactMap { $0 }.joined(separator: " ")
     }
 }
+
+extension CLLocationCoordinate2D : Equatable {
+    static public func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        lhs.latitude == rhs.latitude &&
+            lhs.longitude == rhs.longitude
+    }
+}
+

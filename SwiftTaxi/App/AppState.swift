@@ -8,13 +8,39 @@
 import ComposableArchitecture
 import CoreLocation
 import Foundation
+import MapKit
+
+final class MapConfig: ObservableObject {
+    private var firstUpdate = true
+
+    var location = CLLocationCoordinate2D() {
+        didSet {
+            if firstUpdate {
+                region.center = location
+                region.span = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                firstUpdate = false
+            }
+        }
+    }
+
+    func moveToCurrentLocation() {
+        region.center = location
+    }
+
+    @Published var region = MKCoordinateRegion() {
+        didSet {
+            print("Lat: \(region.center.latitude) Lon: \(region.center.longitude)")
+        }
+    }
+}
 
 struct AppState: Equatable {
+    var map = MapConfig()
     var alert: AlertState<AppAction>?
     var currentLocationName: String?
-    var currentPlacemark: CLPlacemark?
+    var currentLocation: CLLocationCoordinate2D = .borovo
     var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
-    var destinationDashboardState: DestinationDashboardState = DestinationDashboardState(places: [])
+    var destinationDashboardState = DestinationDashboardState(places: [])
 }
 
 extension AppState {
@@ -30,12 +56,11 @@ extension AppState {
                     Place.mallBulgaria,
                     Place.banichki,
                     Place.lidl,
-                    Place.mallBulgaria,
+                    Place.mallBulgaria
                 ]
             )
         )
     }()
-    
 }
 
 func == (lhs: AppState, rhs: AppState) -> Bool {
