@@ -20,6 +20,9 @@
 		97B8999D25DFC46D00F4E195 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8999C25DFC46D00F4E195 /* AppAction.swift */; };
 		97B899A225DFC49200F4E195 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B899A125DFC49200F4E195 /* AppEnvironment.swift */; };
 		97B899A725DFC4DA00F4E195 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B899A625DFC4DA00F4E195 /* AppReducer.swift */; };
+		97BB57AC25DFCD7B00F8E80D /* CommonDestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57AB25DFCD7B00F8E80D /* CommonDestinationView.swift */; };
+		97BB57C225DFDBB700F8E80D /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57C125DFDBB700F8E80D /* Place.swift */; };
+		97BB57CE25DFDCFA00F8E80D /* CommonDestinationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,9 @@
 		97B8999C25DFC46D00F4E195 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		97B899A125DFC49200F4E195 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		97B899A625DFC4DA00F4E195 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
+		97BB57AB25DFCD7B00F8E80D /* CommonDestinationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDestinationView.swift; sourceTree = "<group>"; };
+		97BB57C125DFDBB700F8E80D /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDestinationReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +171,7 @@
 		97BB579E25DFC7B500F8E80D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				97BB57C925DFDC2300F8E80D /* CommonDestination */,
 				97BB579F25DFC7C000F8E80D /* ContentView */,
 			);
 			path = Views;
@@ -188,8 +195,18 @@
 		97BB57A125DFC7F700F8E80D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				97BB57C125DFDBB700F8E80D /* Place.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		97BB57C925DFDC2300F8E80D /* CommonDestination */ = {
+			isa = PBXGroup;
+			children = (
+				97BB57AB25DFCD7B00F8E80D /* CommonDestinationView.swift */,
+				97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */,
+			);
+			path = CommonDestination;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,11 +345,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97BB57AC25DFCD7B00F8E80D /* CommonDestinationView.swift in Sources */,
 				97B8995B25DF96D500F4E195 /* AppDelegate.swift in Sources */,
 				97B8995D25DF96D500F4E195 /* SceneDelegate.swift in Sources */,
 				97B899A725DFC4DA00F4E195 /* AppReducer.swift in Sources */,
 				97B8999D25DFC46D00F4E195 /* AppAction.swift in Sources */,
 				97B8995F25DF96D500F4E195 /* ContentView.swift in Sources */,
+				97BB57CE25DFDCFA00F8E80D /* CommonDestinationReducer.swift in Sources */,
+				97BB57C225DFDBB700F8E80D /* Place.swift in Sources */,
 				97B8999825DFC44400F4E195 /* AppState.swift in Sources */,
 				97B899A225DFC49200F4E195 /* AppEnvironment.swift in Sources */,
 			);
