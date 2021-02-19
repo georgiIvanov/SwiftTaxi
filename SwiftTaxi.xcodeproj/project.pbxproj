@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,7 @@
 		97B8996725DF96D600F4E195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97B8996525DF96D600F4E195 /* LaunchScreen.storyboard */; };
 		97B8997225DF96D600F4E195 /* SwiftTaxiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8997125DF96D600F4E195 /* SwiftTaxiTests.swift */; };
 		97B8997D25DF96D600F4E195 /* SwiftTaxiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B8997C25DF96D600F4E195 /* SwiftTaxiUITests.swift */; };
+		97B8999325DF9BDF00F4E195 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 97B8999225DF9BDF00F4E195 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		97B8997825DF96D600F4E195 /* SwiftTaxiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftTaxiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97B8997C25DF96D600F4E195 /* SwiftTaxiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTaxiUITests.swift; sourceTree = "<group>"; };
 		97B8997E25DF96D600F4E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97B8998D25DF97B300F4E195 /* SwiftTaxi.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftTaxi.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97B8999325DF9BDF00F4E195 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +102,7 @@
 		97B8995925DF96D500F4E195 /* SwiftTaxi */ = {
 			isa = PBXGroup;
 			children = (
+				97B8998D25DF97B300F4E195 /* SwiftTaxi.playground */,
 				97B8995A25DF96D500F4E195 /* AppDelegate.swift */,
 				97B8995C25DF96D500F4E195 /* SceneDelegate.swift */,
 				97B8995E25DF96D500F4E195 /* ContentView.swift */,
@@ -152,6 +156,9 @@
 			dependencies = (
 			);
 			name = SwiftTaxi;
+			packageProductDependencies = (
+				97B8999225DF9BDF00F4E195 /* ComposableArchitecture */,
+			);
 			productName = SwiftTaxi;
 			productReference = 97B8995725DF96D500F4E195 /* SwiftTaxi.app */;
 			productType = "com.apple.product-type.application";
@@ -223,6 +230,9 @@
 				Base,
 			);
 			mainGroup = 97B8994E25DF96D500F4E195;
+			packageReferences = (
+				97B8999125DF9BDF00F4E195 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 97B8995825DF96D500F4E195 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -591,6 +601,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		97B8999125DF9BDF00F4E195 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		97B8999225DF9BDF00F4E195 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97B8999125DF9BDF00F4E195 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97B8994F25DF96D500F4E195 /* Project object */;
 }
