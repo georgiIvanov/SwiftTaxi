@@ -11,12 +11,20 @@ import SwiftUI
 struct SearchTextField<Content: View>: View {
     
     @Binding var text: String
+    @Binding var isEditing: Bool
+    let placeholder: String
     let prefixImageName: String?
     let content: Content?
     
     
-    init(text: Binding<String>, @ViewBuilder content: () -> Content?, systemImage: String? = nil) {
+    init(placeholder: String,
+         isEditing: Binding<Bool>,
+         text: Binding<String>,
+         @ViewBuilder content: () -> Content?,
+         systemImage: String? = nil) {
+        self.placeholder = placeholder
         self._text = text
+        self._isEditing = isEditing
         self.prefixImageName = systemImage
         self.content = content()
     }
@@ -26,7 +34,10 @@ struct SearchTextField<Content: View>: View {
             if let name = prefixImageName {
                 Image(systemName: name)
             }
-            TextField("", text: $text)
+            
+            TextField(placeholder, text: $text, onEditingChanged: { (editing) in
+                isEditing = editing
+            })
             .font(.body)
             .padding(8)
             .background(Color.green)

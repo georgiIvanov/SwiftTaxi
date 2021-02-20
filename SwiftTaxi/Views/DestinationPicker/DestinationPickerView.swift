@@ -14,14 +14,21 @@ enum DestinationPickerAction: Equatable {
     case searchResponse([Place])
     case destinationPick(Place)
     case pickFromMap
+    case editing(IsEditing?)
+    
+    enum IsEditing {
+        case from
+        case to
+    }
 }
 
 struct DestinationPickerState: Equatable {
     var from: String = ""
     var to: String = ""
+    var lastEditing: DestinationPickerAction.IsEditing? = nil
     
-    var fromPlace: Place = Place(name: "fu1", latitude: 1, longitude: 1)
-    var toPlace: Place = Place(name: "fu2", latitude: 1, longitude: 1)
+    var fromPlace: Place?
+    var toPlace: Place?
     
     var searchResult: [Place] = []
 }
@@ -34,23 +41,37 @@ struct DestinationPickerView: View {
         GeometryReader { geometry in
             WithViewStore(store) { viewStore in
                 VStack {
-                    SearchTextField(text: viewStore.binding(get: { $0.from },
-                                                            send: DestinationPickerAction.fromTextChanged),
-                                    content: { EmptyView() }, systemImage: "circle")
-                    .frame(maxWidth: geometry.size.width * 0.9)
+                    SearchTextField(
+                        placeholder: "From:",
+                        isEditing: viewStore.binding(get: {_ in false },
+                                                     send: { _ in DestinationPickerAction.editing(
+                                                        DestinationPickerAction.IsEditing.from)
+                                                     }),
+                        text: viewStore.binding(get: { $0.from },
+                                                send: DestinationPickerAction.fromTextChanged),
+                        content: { EmptyView() }, systemImage: "circle")
+                        .frame(maxWidth: geometry.size.width * 0.9)
                     
-                    SearchTextField(text: viewStore.binding(get: { $0.to },
-                                                            send: DestinationPickerAction.toTextChanged),
-                                    content: {
-                                        Button("Map") {
-                                            viewStore.send(.pickFromMap)
-                                        }
-                                    }, systemImage: "magnifyingglass")
-                    .frame(maxWidth: geometry.size.width * 0.9)
+                    SearchTextField(
+                        placeholder: "To:",
+                        isEditing: viewStore.binding(get: {_ in false },
+                                                     send: { _ in DestinationPickerAction.editing(
+                                                        DestinationPickerAction.IsEditing.to)
+                                                     }),
+                        text: viewStore.binding(get: { $0.to },
+                                                send: DestinationPickerAction.toTextChanged),
+                        content: {
+                            Button("Map") {
+                                viewStore.send(.pickFromMap)
+                            }
+                        }, systemImage: "magnifyingglass")
+                        .frame(maxWidth: geometry.size.width * 0.9)
                     
                     List {
                         ForEach(viewStore.searchResult) { place in
-                            Text("\(place.name)")
+                            Button(place.name) {
+                                viewStore.send(.destinationPick(place))
+                            }
                         }
                     }
                 }
