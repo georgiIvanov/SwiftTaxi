@@ -43,6 +43,7 @@ struct LocationEnvironment {
 let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment> {
     state, action, environment in
     struct LocationManagerId: Hashable {}
+    struct GeoCoderId: Hashable {}
 
     switch action {
     case .updateViewPortLocation(let location):
@@ -73,7 +74,7 @@ let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment
     case .updateCurrentLocation(let location):
         state.userCurrentLocation = location
         if !state.initialLocationLoaded {
-            state.initialLocationLoaded = false
+            state.initialLocationLoaded = true
             return Effect.merge(
                 .init(value: .updateLocation(location)),
                 .init(value: .updateViewPortLocation(location))
@@ -95,6 +96,7 @@ let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment
     case .reverseGeocodeLocation(let location):
         return environment.geoCoder
             .lookUpName(location)
+            .debounce(id: GeoCoderId(), for: 0.3, scheduler: environment.mainQueue)
             .receive(on: environment.mainQueue)
             .map(LocationAction.updateCurrentLocationName)
             .eraseToEffect()
