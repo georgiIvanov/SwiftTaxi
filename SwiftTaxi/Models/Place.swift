@@ -21,11 +21,26 @@ struct Place: Identifiable, Equatable, Hashable {
 }
 
 extension Place {
-    init(_ item: MKMapItem) {
+    static func getBothPlaces(_ item: MKMapItem) -> [Place] {
         let placemark = item.placemark
-        self.init(name: item.name ?? placemark.abbreviation,
-                  latitude: placemark.coordinate.latitude,
-                  longitude: placemark.coordinate.longitude)
+        let coordinate = placemark.coordinate
+        let placeWithName = item.name.flatMap { Place(name: $0, coordinate: coordinate) }
+        let placeWithAddress = Place(name: placemark.abbreviation, coordinate: coordinate)
+        if let placeWithName = placeWithName {
+            if placeWithName.name == placeWithAddress.name {
+                return [placeWithName]
+            } else {
+                return [placeWithName, placeWithAddress]
+            }
+        } else {
+            return [placeWithAddress]
+        }
+    }
+
+    init(name: String, coordinate: CLLocationCoordinate2D) {
+        self.init(name: name,
+                  latitude: coordinate.latitude,
+                  longitude: coordinate.longitude)
     }
 }
 

@@ -52,7 +52,7 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
             .search(state.selectedRegion, searchTerm)
             .debounce(id: LocalSearchId(), for: 0.3, scheduler: environment.mainQueue)
             .receive(on: environment.mainQueue)
-            .map { .searchResponse($0.map(Place.init)) }
+            .map { .searchResponse($0.flatMap(Place.getBothPlaces)) }
             .eraseToEffect()
     case let .presentModalMap(present):
         state.isModalMapPresented = present

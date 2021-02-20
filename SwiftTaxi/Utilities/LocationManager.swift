@@ -139,15 +139,17 @@ extension LocationManager {
 
 extension CLPlacemark {
     var abbreviation: String {
-        if let name = self.name {
-            return name
-        }
+        let address = [thoroughfare, subThoroughfare].compactMap { $0 }
+        if address.isEmpty {
+            if let name = self.name {
+                return name
+            }
 
-        if let interestingPlace = areasOfInterest?.first {
-            return interestingPlace
+            if let interestingPlace = areasOfInterest?.first {
+                return interestingPlace
+            }
         }
-
-        return [subThoroughfare, thoroughfare].compactMap { $0 }.joined(separator: " ")
+        return address.joined(separator: " ")
     }
 }
 
