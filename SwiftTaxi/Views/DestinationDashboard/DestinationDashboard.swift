@@ -44,10 +44,11 @@ struct DestinationDashboard: View {
                         Text("Where to?")
                         Spacer()
                     }
-                    
-                    
                 }
                 .padding(8)
+                .onTapGesture {
+                    viewStore.send(.whereToTap)
+                }
                 
                 ForEach(viewStore.placeRows, id: \.self) { (row) in
                     HStack {

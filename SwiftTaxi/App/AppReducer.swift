@@ -67,7 +67,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
     case .dismissAuthorizationStateAlert:
         state.alert = nil
         return .none
-    case .destinationDashboard:
+    case .destinationDashboard(.whereToTap):
+        state.dashboardShown = true
         return .none
     case let .dashboardShown(shown):
         state.dashboardShown = shown
