@@ -9,14 +9,9 @@ import CoreLocation
 import Foundation
 
 enum AppAction: Equatable {
+    case location(LocationAction)
     case destinationDashboard(DestinationDashboardAction)
     case destinationPicker(DestinationPickerAction)
     case startUp
-    case locationAuthorizationStatusResponse(CLAuthorizationStatus)
-    case dismissAuthorizationStateAlert
     case dashboardShown(Bool)
-    case updateCurrentLocation(location: CLLocation)
-    case updateCurrentLocationName(name: String)
-    case locationManagerResponse(Result<LocationManager.Action, LocationManager.Error>)
-    case reverseGeocodeLocation(location: CLLocation)
 }

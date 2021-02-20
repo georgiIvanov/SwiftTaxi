@@ -12,19 +12,20 @@ import SwiftUI
 struct ContentView: View {
     let store: Store<AppState, AppAction>
     @ObservedObject var viewStore: ViewStore<AppState, AppAction>
-    
+
     init(store: Store<AppState, AppAction>) {
         self.store = store
-        self.viewStore = ViewStore(store)
+        viewStore = ViewStore(store)
         viewStore.send(.startUp)
     }
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                MapView(config: viewStore.map)
+                MapView(config: viewStore.locationState.map)
                     .ignoresSafeArea()
                 VStack {
-                    Text(viewStore.currentLocationName ?? "Unknown")
+                    Text(viewStore.locationState.currentLocationName ?? "Unknown")
                         .padding()
                         .background(Color.white)
 
@@ -51,7 +52,7 @@ struct ContentView: View {
                 }
                 .ignoresSafeArea(.container, edges: .bottom)
             }
-            .alert(self.store.scope(state: { $0.alert }), dismiss: .dismissAuthorizationStateAlert)
+            .alert(self.store.scope(state: { $0.locationState.alert }), dismiss: .location(.dismissAuthorizationStateAlert))
         }
     }
 }
