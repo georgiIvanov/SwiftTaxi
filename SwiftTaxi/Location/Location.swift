@@ -8,24 +8,30 @@
 import ComposableArchitecture
 import CoreLocation
 import Foundation
+import MapKit
 
 struct LocationState: Equatable {
+    var initialLocationLoaded = false
     var location = CLLocation()
-    var alert: AlertState<AppAction>?
-    var map = MapConfig()
-    var currentLocationName: String?
-    var currentLocation: CLLocationCoordinate2D = .borovo
+    var locationName: String?
+    var userCurrentLocation = CLLocation()
+    var alert: AlertState<LocationAction>?
+    var region = MKCoordinateRegion()
     var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
 }
 
 enum LocationAction: Equatable {
     case startUp
     case locationAuthorizationStatusResponse(CLAuthorizationStatus)
-    case updateCurrentLocation(location: CLLocation)
-    case updateCurrentLocationName(name: String)
+    case updateCurrentLocation(CLLocation)
+    case updateCurrentLocationName(String)
     case locationManagerResponse(Result<LocationManager.Action, LocationManager.Error>)
-    case reverseGeocodeLocation(location: CLLocation)
+    case reverseGeocodeLocation(CLLocation)
     case dismissAuthorizationStateAlert
+    case regionUpdated(MKCoordinateRegion)
+    case resetLocationToCurrentLocation
+    case updateLocation(CLLocation)
+    case updateViewPortLocation(CLLocation)
 }
 
 struct LocationEnvironment {
@@ -39,6 +45,23 @@ let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment
     struct LocationManagerId: Hashable {}
 
     switch action {
+    case .updateViewPortLocation(let location):
+        state.region.center = location.coordinate
+        state.region.span = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        return .none
+
+    case .resetLocationToCurrentLocation:
+        let location = state.userCurrentLocation
+        return Effect.merge(
+            .init(value: .updateLocation(location)),
+            .init(value: .updateViewPortLocation(location))
+        )
+
+    case .regionUpdated(let region):
+        state.region = region
+        return .init(value: .updateLocation(.init(latitude: region.center.latitude,
+                                                  longitude: region.center.longitude)))
+
     case .startUp:
         return environment.locationManager
             .initialisation(LocationManagerId())
@@ -48,21 +71,32 @@ let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment
             .eraseToEffect()
 
     case .updateCurrentLocation(let location):
-        state.currentLocation = location.coordinate
-        state.map.location = location.coordinate
+        state.userCurrentLocation = location
+        if !state.initialLocationLoaded {
+            state.initialLocationLoaded = false
+            return Effect.merge(
+                .init(value: .updateLocation(location)),
+                .init(value: .updateViewPortLocation(location))
+            )
+        }
+        return .none
 
-        return .init(value: .reverseGeocodeLocation(location: location))
+    case .updateLocation(let location):
+        let c = location.coordinate
+        print(String(format: "Lat: %.5f Lon: %.5f", c.latitude, c.longitude))
+        state.location = location
+
+        return .init(value: .reverseGeocodeLocation(location))
 
     case .updateCurrentLocationName(let name):
-        state.currentLocationName = name
-
+        state.locationName = name
         return .none
 
     case .reverseGeocodeLocation(let location):
         return environment.geoCoder
             .lookUpName(location)
             .receive(on: environment.mainQueue)
-            .map(LocationAction.updateCurrentLocationName(name:))
+            .map(LocationAction.updateCurrentLocationName)
             .eraseToEffect()
 
     case .locationAuthorizationStatusResponse(let status):
@@ -107,7 +141,7 @@ let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment
             case .authorizationDidChange(let status):
                 return .init(value: .locationAuthorizationStatusResponse(status))
             case .currentLocationDidChange(let location):
-                return .init(value: .updateCurrentLocation(location: location))
+                return .init(value: .updateCurrentLocation(location))
             }
 
         case .failure(let error):
@@ -115,4 +149,30 @@ let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment
             return .none
         }
     }
+}
+
+extension MKCoordinateRegion: Equatable {
+    public static func == (lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
+        lhs.center == rhs.center &&
+            lhs.span.latitudeDelta == rhs.span.latitudeDelta &&
+            lhs.span.longitudeDelta == rhs.span.longitudeDelta
+    }
+}
+
+// MARK: - Mock
+
+extension LocationState {
+    static let mock = LocationState(
+        location: .borovo,
+        locationName: "Borovo",
+        userCurrentLocation: .borovo,
+        alert: nil,
+        locationAuthorizationStatus: CLAuthorizationStatus.authorizedAlways
+    )
+}
+
+extension LocationEnvironment {
+    static var mock = LocationEnvironment(locationManager: .mock,
+                                          geoCoder: .mock,
+                                          mainQueue: DispatchQueue.main.eraseToAnyScheduler())
 }
