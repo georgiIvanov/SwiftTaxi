@@ -12,8 +12,7 @@ import MapKit
 
 struct AppState: Equatable {
     var locationState = LocationState()
-    var dashboardShown: Bool = false
-    var pickDestination: Bool = false
+    var step: OrderStep = .dashboard(.medium)
     var destinationDashboardState = DestinationDashboardState(places: [])
     var destinationPickerState = DestinationPickerState()
 }

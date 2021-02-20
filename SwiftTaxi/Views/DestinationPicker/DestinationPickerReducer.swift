@@ -54,5 +54,8 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
             .receive(on: environment.mainQueue)
             .map { .searchResponse($0.map(Place.init)) }
             .eraseToEffect()
+    case let .presentModalMap(present):
+        state.isModalMapPresented = present
+        return .none
     }
 }

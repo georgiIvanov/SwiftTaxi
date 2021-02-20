@@ -9,19 +9,20 @@ import ComposableArchitecture
 import MapKit
 import SwiftUI
 
+enum Direction: Equatable {
+    case from
+    case to
+}
+
 enum DestinationPickerAction: Equatable {
     case fromTextChanged(String)
     case toTextChanged(String)
     case searchResponse([Place])
     case destinationPick(Place)
     case pickFromMap
-    case editing(IsEditing?)
+    case editing(Direction?)
     case localSearch(String)
-    
-    enum IsEditing {
-        case from
-        case to
-    }
+    case presentModalMap(Bool)
 }
 
 struct DestinationPickerState: Equatable {
@@ -37,7 +38,8 @@ struct DestinationPickerState: Equatable {
     var selectedLocation = CLLocation()
     var from: String = ""
     var to: String = ""
-    var lastEditing: DestinationPickerAction.IsEditing? = nil
+    var lastEditing: Direction? = nil
+    var isModalMapPresented = false
     
     var fromPlace: Place?
     var toPlace: Place?
@@ -46,6 +48,7 @@ struct DestinationPickerState: Equatable {
 }
 
 struct DestinationPickerView: View {
+    
     let store: Store<DestinationPickerState, DestinationPickerAction>
 
     var body: some View {
@@ -55,8 +58,7 @@ struct DestinationPickerView: View {
                     SearchTextField(
                         placeholder: "From:",
                         isEditing: viewStore.binding(get: {_ in false },
-                                                     send: { _ in DestinationPickerAction.editing(
-                                                        DestinationPickerAction.IsEditing.from)
+                                                     send: { _ in DestinationPickerAction.editing(.from)
                                                      }),
                         text: viewStore.binding(get: { $0.from },
                                                 send: DestinationPickerAction.fromTextChanged),
@@ -66,14 +68,17 @@ struct DestinationPickerView: View {
                     SearchTextField(
                         placeholder: "To:",
                         isEditing: viewStore.binding(get: {_ in false },
-                                                     send: { _ in DestinationPickerAction.editing(
-                                                        DestinationPickerAction.IsEditing.to)
+                                                     send: { _ in DestinationPickerAction.editing(.to)
                                                      }),
                         text: viewStore.binding(get: { $0.to },
                                                 send: DestinationPickerAction.toTextChanged),
                         content: {
                             Button("Map") {
-                                viewStore.send(.pickFromMap)
+                                viewStore.send(.presentModalMap(true))
+                            }
+                            .fullScreenCover(isPresented: viewStore.binding(get: \.isModalMapPresented,
+                                                                            send: DestinationPickerAction.presentModalMap)) {
+                                MapModalView()
                             }
                         }, systemImage: "magnifyingglass")
                         .frame(maxWidth: geometry.size.width * 0.9)

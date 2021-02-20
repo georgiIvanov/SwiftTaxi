@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+enum ModalSize: Equatable {
+    case medium
+    case large
+}
+
 fileprivate enum Constants {
     static let radius: CGFloat = 16
     static let indicatorHeight: CGFloat = 6

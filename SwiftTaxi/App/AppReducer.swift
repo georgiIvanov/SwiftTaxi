@@ -31,15 +31,11 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
     case .location, .destinationPicker:
         return .none
     case .destinationDashboard(.whereToTap):
-        state.dashboardShown = true
-        state.pickDestination = true
+        state.step = .pickDestination(nil)
         state.destinationPickerState.selectedLocation = state.locationState.location
         return .none
     case .dashboardShown(let shown):
-        state.dashboardShown = shown
-        if shown == false {
-            state.pickDestination = false
-        }
+        state.step = .dashboard(shown ? .large : .medium)
         return .none
     }
 }

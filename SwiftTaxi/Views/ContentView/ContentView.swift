@@ -23,21 +23,11 @@ struct ContentView: View {
                     
                     VStack {
                         BottomSheetView(
-                            isOpen: viewStore.binding(get: \.dashboardShown,
+                            isOpen: viewStore.binding(get: \.step.isDashboardExpanded,
                                                       send: { .dashboardShown($0) }),
                             maxHeight: geometry.size.height
                         ) {
-                            if viewStore.pickDestination {
-                                DestinationPickerView(
-                                    store: store.scope(state: \.destinationPickerState,
-                                                       action: { .destinationPicker($0) }))
-                            } else {
-                                DestinationDashboard(
-                                    store: store.scope(state: \.destinationDashboardState,
-                                                       action: { .destinationDashboard($0) }
-                                    )
-                                )
-                            }
+                            BottomSheetContainer(store: store)
                         }
                     }
                     .ignoresSafeArea(.container, edges: .bottom)
