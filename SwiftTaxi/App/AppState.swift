@@ -16,6 +16,7 @@ struct AppState: Equatable {
     var currentLocation: CLLocationCoordinate2D = .borovo
     var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
     var dashboardShown: Bool = false
+    var pickDestination: Bool = false
     var destinationDashboardState = DestinationDashboardState(places: [])
 }
 

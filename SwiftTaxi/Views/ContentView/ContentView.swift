@@ -29,11 +29,15 @@ struct ContentView: View {
                                                   send: {.dashboardShown($0) }),
                         maxHeight: geometry.size.height
                     ) {
-                        DestinationDashboard(
-                            store: store.scope(state: { $0.destinationDashboardState },
-                                               action: { .destinationDashboard($0) }
+                        if viewStore.pickDestination {
+                            DestinationPickerView()
+                        } else {
+                            DestinationDashboard(
+                                store: store.scope(state: { $0.destinationDashboardState },
+                                                   action: { .destinationDashboard($0) }
+                                )
                             )
-                        )
+                        }
                     }
                 }
                 .ignoresSafeArea(.container, edges: .bottom)

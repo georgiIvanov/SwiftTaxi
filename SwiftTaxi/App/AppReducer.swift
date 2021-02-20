@@ -69,9 +69,13 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
         return .none
     case .destinationDashboard(.whereToTap):
         state.dashboardShown = true
+        state.pickDestination = true
         return .none
     case let .dashboardShown(shown):
         state.dashboardShown = shown
+        if shown == false {
+            state.pickDestination = false
+        }
         return .none
     case .locationManagerResponse(let result):
         switch result {
