@@ -75,6 +75,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
         state.dashboardShown = true
         state.pickDestination = true
         return .none
+    case .destinationPicker(_):
+        return .none
     case .dashboardShown(let shown):
         state.dashboardShown = shown
         if shown == false {

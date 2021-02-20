@@ -10,6 +10,7 @@ import Foundation
 
 enum AppAction: Equatable {
     case destinationDashboard(DestinationDashboardAction)
+    case destinationPicker(DestinationPickerAction)
     case startUp
     case locationAuthorizationStatusResponse(CLAuthorizationStatus)
     case dismissAuthorizationStateAlert

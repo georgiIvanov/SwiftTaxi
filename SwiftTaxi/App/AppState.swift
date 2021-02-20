@@ -18,6 +18,7 @@ struct AppState: Equatable {
     var dashboardShown: Bool = false
     var pickDestination: Bool = false
     var destinationDashboardState = DestinationDashboardState(places: [])
+    var destinationPickerState = DestinationPickerState()
 }
 
 extension AppState {

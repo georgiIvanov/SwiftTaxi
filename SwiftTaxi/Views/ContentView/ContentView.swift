@@ -33,11 +33,13 @@ struct ContentView: View {
                 VStack {
                     BottomSheetView(
                         isOpen: viewStore.binding(get: { $0.dashboardShown },
-                                                  send: {.dashboardShown($0) }),
+                                                  send: { .dashboardShown($0) }),
                         maxHeight: geometry.size.height
                     ) {
                         if viewStore.pickDestination {
-                            DestinationPickerView()
+                            DestinationPickerView(
+                                store: store.scope(state: { $0.destinationPickerState },
+                                                   action: { .destinationPicker($0) }))
                         } else {
                             DestinationDashboard(
                                 store: store.scope(state: { $0.destinationDashboardState },
