@@ -9,23 +9,38 @@ import ComposableArchitecture
 import MapKit
 import SwiftUI
 
+struct MapScalableImage: View {
+    let uiImage: UIImage
+    let span: MKCoordinateSpan
+
+    var body: some View {
+        let ratio = CGFloat(span.latitudeDelta)
+        let size: CGFloat = ratio < 0.02 ? 50 : (1.0 / ratio)
+        if size > 25 {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: size,
+                       height: size)
+        }
+    }
+}
+
 struct MapView: View {
     let places: [Place] = [.banichki, .lidl, .mallBulgaria]
 
     let store: Store<LocationState, LocationAction>
     var body: some View {
         WithViewStore(store) { viewStore in
-
             ZStack {
                 Map(
-                    coordinateRegion: viewStore.binding(
-                        get: { $0.region },
-                        send: { .regionUpdated($0) }
-                    ),
+                    coordinateRegion: viewStore.binding(get: \.region, send: { .regionUpdated($0) }),
                     showsUserLocation: true,
                     annotationItems: places,
                     annotationContent: { place in
-                        MapMarker(coordinate: place.coordinate, tint: .green)
+                        MapAnnotation(coordinate: place.coordinate) {
+                            MapScalableImage(uiImage: #imageLiteral(resourceName: "TaxiCar"), span: viewStore.region.span)
+                        }
                     }
                 )
                 .ignoresSafeArea()
@@ -70,18 +85,7 @@ struct MapView_Previews: PreviewProvider {
     }
 }
 
-extension CLLocationCoordinate2D {
-    static let borovo = CLLocationCoordinate2D(
-        latitude: 42.661280062038365,
-        longitude: 23.28120068
-    )
-    static let current = CLLocationCoordinate2D(
-        latitude: 42.667,
-        longitude: 23.28120068
-    )
-}
-
 extension CLLocation {
-    static let borovo = CLLocation(latitude: CLLocationCoordinate2D.borovo.latitude,
-                                   longitude: CLLocationCoordinate2D.borovo.longitude)
+    static let borovo = CLLocation(latitude: 42.66128006,
+                                   longitude: 23.28120068)
 }
