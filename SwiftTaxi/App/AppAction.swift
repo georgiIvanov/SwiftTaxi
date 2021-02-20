@@ -12,6 +12,5 @@ enum AppAction: Equatable {
     case location(LocationAction)
     case destinationDashboard(DestinationDashboardAction)
     case destinationPicker(DestinationPickerAction)
-    case startUp
     case dashboardShown(Bool)
 }

@@ -24,8 +24,6 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
-    case .startUp:
-        return .init(value: .location(.startUp))
     case .location(let action):
         return .none
     case .destinationDashboard(.whereToTap):

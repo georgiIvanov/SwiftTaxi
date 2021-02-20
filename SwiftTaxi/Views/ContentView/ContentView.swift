@@ -11,48 +11,38 @@ import SwiftUI
 
 struct ContentView: View {
     let store: Store<AppState, AppAction>
-    @ObservedObject var viewStore: ViewStore<AppState, AppAction>
-
-    init(store: Store<AppState, AppAction>) {
-        self.store = store
-        viewStore = ViewStore(store)
-        viewStore.send(.startUp)
-    }
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                MapView(config: viewStore.locationState.map)
-                    .ignoresSafeArea()
-                VStack {
-                    Text(viewStore.locationState.currentLocationName ?? "Unknown")
-                        .padding()
-                        .background(Color.white)
+        WithViewStore(store) { viewStore in
+            GeometryReader { geometry in
+                ZStack {
+                    MapView(
+                        store: store.scope(state: { $0.locationState },
+                                           action: { .location($0) })
+                    )
 
-                    Spacer()
-                }
-                VStack {
-                    BottomSheetView(
-                        isOpen: viewStore.binding(get: { $0.dashboardShown },
-                                                  send: { .dashboardShown($0) }),
-                        maxHeight: geometry.size.height
-                    ) {
-                        if viewStore.pickDestination {
-                            DestinationPickerView(
-                                store: store.scope(state: { $0.destinationPickerState },
-                                                   action: { .destinationPicker($0) }))
-                        } else {
-                            DestinationDashboard(
-                                store: store.scope(state: { $0.destinationDashboardState },
-                                                   action: { .destinationDashboard($0) }
+                    VStack {
+                        BottomSheetView(
+                            isOpen: viewStore.binding(get: { $0.dashboardShown },
+                                                      send: { .dashboardShown($0) }),
+                            maxHeight: geometry.size.height
+                        ) {
+                            if viewStore.pickDestination {
+                                DestinationPickerView(
+                                    store: store.scope(state: { $0.destinationPickerState },
+                                                       action: { .destinationPicker($0) }))
+                            } else {
+                                DestinationDashboard(
+                                    store: store.scope(state: { $0.destinationDashboardState },
+                                                       action: { .destinationDashboard($0) }
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
+                    .ignoresSafeArea(.container, edges: .bottom)
                 }
-                .ignoresSafeArea(.container, edges: .bottom)
             }
-            .alert(self.store.scope(state: { $0.locationState.alert }), dismiss: .location(.dismissAuthorizationStateAlert))
         }
     }
 }
