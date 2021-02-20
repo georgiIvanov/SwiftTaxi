@@ -7,6 +7,7 @@
 
 import CoreLocation
 import Foundation
+import MapKit
 
 struct Place: Identifiable, Equatable, Hashable {
     var id = UUID()
@@ -16,6 +17,15 @@ struct Place: Identifiable, Equatable, Hashable {
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+}
+
+extension Place {
+    init(_ item: MKMapItem) {
+        let placemark = item.placemark
+        self.init(name: item.name ?? placemark.abbreviation,
+                  latitude: placemark.coordinate.latitude,
+                  longitude: placemark.coordinate.longitude)
     }
 }
 

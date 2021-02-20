@@ -9,7 +9,8 @@ import ComposableArchitecture
 import Foundation
 
 let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPickerAction, DestinationPickerEnvironment> {
-        state, action, environment in
+    state, action, environment in
+    struct LocalSearchId: Hashable {}
     switch action {
     case .destinationPick(let place):
         return .none
@@ -27,14 +28,9 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
     case .localSearch(let searchTerm):
         return environment.localSearch
             .search(state.selectedRegion, searchTerm)
+            .debounce(id: LocalSearchId(), for: 0.3, scheduler: environment.mainQueue)
             .receive(on: environment.mainQueue)
-            .map {
-                .searchResponse($0.map { item in
-                    Place(name: item.name ?? item.placemark.abbreviation,
-                          latitude: item.placemark.coordinate.latitude,
-                          longitude: item.placemark.coordinate.longitude)
-                })
-            }
+            .map { .searchResponse($0.map(Place.init)) }
             .eraseToEffect()
     }
 }
