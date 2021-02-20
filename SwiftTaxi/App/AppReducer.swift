@@ -21,15 +21,22 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
             .eraseToEffect()
 
     case .updateCurrentLocation(let location):
-        state.currentLocation = location
-        state.map.location = location
-        return .none
+        state.currentLocation = location.coordinate
+        state.map.location = location.coordinate
+
+        return .init(value: .reverseGeocodeLocation(location: location))
 
     case .updateCurrentLocationName(let name):
         state.currentLocationName = name
-//        state.alert = .init(title: .init("SUCCESS. You are at \(name)!"))
-
         return .none
+
+    case .reverseGeocodeLocation(let location):
+        return environment.geoCoder
+            .lookUpName(location)
+            .receive(on: environment.mainQueue)
+            .map(AppAction.updateCurrentLocationName(name:))
+            .eraseToEffect()
+
     case .locationAuthorizationStatusResponse(let status):
         state.locationAuthorizationStatus = status
 
@@ -55,22 +62,19 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
 
         case .authorizedAlways, .authorizedWhenInUse:
             return environment.locationManager
-                .requestSingleLocation(LocationManagerId())
+                .startLocationUpdates(LocationManagerId())
                 .fireAndForget()
 
         @unknown default:
             return .none
         }
-    case .requestedAuthorization:
-        // Logging
-        return .none
     case .dismissAuthorizationStateAlert:
         state.alert = nil
         return .none
     case .destinationDashboard(.whereToTap):
         state.dashboardShown = true
         return .none
-    case let .dashboardShown(shown):
+    case .dashboardShown(let shown):
         state.dashboardShown = shown
         return .none
     case .locationManagerResponse(let result):
@@ -81,8 +85,6 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
                 return .init(value: .locationAuthorizationStatusResponse(status))
             case .currentLocationDidChange(let location):
                 return .init(value: .updateCurrentLocation(location: location))
-            case .currentLocationNameDidChange(let name):
-                return .init(value: .updateCurrentLocationName(name: name))
             }
 
         case .failure(let error):

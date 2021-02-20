@@ -13,9 +13,9 @@ enum AppAction: Equatable {
     case startUp
     case locationAuthorizationStatusResponse(CLAuthorizationStatus)
     case dismissAuthorizationStateAlert
-    case requestedAuthorization
     case dashboardShown(Bool)
-    case updateCurrentLocation(location: CLLocationCoordinate2D)
+    case updateCurrentLocation(location: CLLocation)
     case updateCurrentLocationName(name: String)
     case locationManagerResponse(Result<LocationManager.Action, LocationManager.Error>)
+    case reverseGeocodeLocation(location: CLLocation)
 }
