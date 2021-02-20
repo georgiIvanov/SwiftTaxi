@@ -9,6 +9,23 @@ import ComposableArchitecture
 import MapKit
 import SwiftUI
 
+struct MapScalableImage: View {
+    let uiImage: UIImage
+    let span: MKCoordinateSpan
+
+    var body: some View {
+        let ratio = CGFloat(span.latitudeDelta)
+        let size: CGFloat = ratio < 0.02 ? 50 : (1.0 / ratio)
+        if size > 25 {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: size,
+                       height: size)
+        }
+    }
+}
+
 struct MapView: View {
     let places: [Place] = [.banichki, .lidl, .mallBulgaria]
 
@@ -22,15 +39,7 @@ struct MapView: View {
                     annotationItems: places,
                     annotationContent: { place in
                         MapAnnotation(coordinate: place.coordinate) {
-                            let ratio = CGFloat(viewStore.region.span.latitudeDelta)
-                            let size: CGFloat = ratio < 0.02 ? 50 : (1.0 / ratio)
-                            if size > 25 {
-                                Image(uiImage: #imageLiteral(resourceName: "TaxiCar"))
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: size,
-                                           height: size)
-                            }
+                            MapScalableImage(uiImage: #imageLiteral(resourceName: "TaxiCar"), span: viewStore.region.span)
                         }
                     }
                 )
