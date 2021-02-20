@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import CoreLocation
 import Foundation
+import MapKit
 
 struct AppState: Equatable {
     var locationState = LocationState()

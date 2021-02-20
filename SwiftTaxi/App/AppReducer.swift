@@ -19,18 +19,21 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     contentViewReducer,
     destinationPickerReducer.pullback(state: \AppState.destinationPickerState,
                                       action: /AppAction.destinationPicker,
-                                      environment: { _ in DestinationPickerEnvironment.mock })
+                                      environment: { .init(
+                                          localSearch: $0.localSearch,
+                                          mainQueue: $0.mainQueue
+                                      )
+                                      })
 )
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
-    case .location(let action):
+    case .location, .destinationPicker:
         return .none
     case .destinationDashboard(.whereToTap):
         state.dashboardShown = true
         state.pickDestination = true
-        return .none
-    case .destinationPicker(_):
+        state.destinationPickerState.selectedLocation = state.locationState.location
         return .none
     case .dashboardShown(let shown):
         state.dashboardShown = shown

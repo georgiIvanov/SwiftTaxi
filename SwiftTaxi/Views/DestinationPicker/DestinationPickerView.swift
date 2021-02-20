@@ -5,8 +5,9 @@
 //  Created by Voro on 20.02.21.
 //
 
-import SwiftUI
 import ComposableArchitecture
+import MapKit
+import SwiftUI
 
 enum DestinationPickerAction: Equatable {
     case fromTextChanged(String)
@@ -15,6 +16,7 @@ enum DestinationPickerAction: Equatable {
     case destinationPick(Place)
     case pickFromMap
     case editing(IsEditing?)
+    case localSearch(String)
     
     enum IsEditing {
         case from
@@ -23,6 +25,16 @@ enum DestinationPickerAction: Equatable {
 }
 
 struct DestinationPickerState: Equatable {
+    var selectedRegion: MKCoordinateRegion {
+        let commonDelta: CLLocationDegrees = 25 / 111
+        let span = MKCoordinateSpan(
+            latitudeDelta: commonDelta,
+            longitudeDelta: commonDelta)
+        return MKCoordinateRegion(center: selectedLocation.coordinate,
+                                  span: span)
+    }
+
+    var selectedLocation = CLLocation()
     var from: String = ""
     var to: String = ""
     var lastEditing: DestinationPickerAction.IsEditing? = nil
@@ -34,9 +46,8 @@ struct DestinationPickerState: Equatable {
 }
 
 struct DestinationPickerView: View {
-    
     let store: Store<DestinationPickerState, DestinationPickerAction>
-    
+
     var body: some View {
         GeometryReader { geometry in
             WithViewStore(store) { viewStore in
@@ -66,7 +77,6 @@ struct DestinationPickerView: View {
                             }
                         }, systemImage: "magnifyingglass")
                         .frame(maxWidth: geometry.size.width * 0.9)
-                    
                     List {
                         ForEach(viewStore.searchResult) { place in
                             Button(place.name) {
@@ -84,6 +94,6 @@ struct DestinationPickerView_Previews: PreviewProvider {
     static var previews: some View {
         DestinationPickerView(store: Store(initialState: DestinationPickerState(),
                                            reducer: destinationPickerReducer,
-                                           environment: DestinationPickerEnvironment.mock ))
+                                           environment: DestinationPickerEnvironment.mock))
     }
 }
