@@ -16,7 +16,10 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
                                        geoCoder: $0.geoCoder,
                                        mainQueue: $0.mainQueue)
                              }),
-    contentViewReducer
+    contentViewReducer,
+    destinationPickerReducer.pullback(state: \AppState.destinationPickerState,
+                                      action: /AppAction.destinationPicker,
+                                      environment: { _ in DestinationPickerEnvironment.mock })
 )
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in

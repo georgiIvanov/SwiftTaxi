@@ -9,41 +9,63 @@ import SwiftUI
 import ComposableArchitecture
 
 enum DestinationPickerAction: Equatable {
-    case fromPlaceTextChanged(String)
-    case toPlaceTextChanged(String)
+    case fromTextChanged(String)
+    case toTextChanged(String)
+    case searchResponse([Place])
     case destinationPick(Place)
+    case pickFromMap
 }
 
 struct DestinationPickerState: Equatable {
-    let from: Place = Place(name: "fu1", latitude: 1, longitude: 1)
-    let to: Place = Place(name: "fu2", latitude: 1, longitude: 1)
+    var from: String = ""
+    var to: String = ""
     
-    let searchResult: [Place] = []
+    var fromPlace: Place = Place(name: "fu1", latitude: 1, longitude: 1)
+    var toPlace: Place = Place(name: "fu2", latitude: 1, longitude: 1)
+    
+    var searchResult: [Place] = []
 }
 
 struct DestinationPickerView: View {
     
     let store: Store<DestinationPickerState, DestinationPickerAction>
     
-    let filterResult = [Place(name: "fu1", latitude: 1, longitude: 1),
-                        Place(name: "fu2", latitude: 1, longitude: 1),
-                        Place(name: "fu3", latitude: 1, longitude: 1),
-                        Place(name: "fu4", latitude: 1, longitude: 1),]
-    
     var body: some View {
-        WithViewStore(store) { viewStore in
-            VStack {
-                TextField("",
-                          text: viewStore.binding(get: { $0.from.name },
-                                                  send: DestinationPickerAction.fromPlaceTextChanged)
-                )
-                TextField("",
-                          text: viewStore.binding(get: { $0.to.name },
-                                                  send: DestinationPickerAction.toPlaceTextChanged)
-                )
-                List {
-                    ForEach(filterResult) { place in
-                        Text("\(place.name)")
+        GeometryReader { geometry in
+            WithViewStore(store) { viewStore in
+                VStack {
+                    HStack {
+                        Image(systemName: "circle")
+                        TextField("",
+                                  text: viewStore.binding(get: { $0.from },
+                                                          send: DestinationPickerAction.fromTextChanged)
+                        )
+                        .frame(minHeight: 50)
+                        .background(Color.green)
+                    }
+                    .frame(maxWidth: geometry.size.width * 0.9)
+                    
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        TextField("",
+                                  text: viewStore.binding(get: { $0.to },
+                                                          send: DestinationPickerAction.toTextChanged)
+                        )
+                        .frame(minHeight: 50)
+                        .background(Color.green)
+                        Divider()
+                            .frame(width: 1, height: 50, alignment: .center)
+                        Button("Map") {
+                            viewStore.send(.pickFromMap)
+                        }
+                    }
+                    .frame(maxWidth: geometry.size.width * 0.9)
+                    
+                    
+                    List {
+                        ForEach(viewStore.searchResult) { place in
+                            Text("\(place.name)")
+                        }
                     }
                 }
             }
@@ -55,6 +77,6 @@ struct DestinationPickerView_Previews: PreviewProvider {
     static var previews: some View {
         DestinationPickerView(store: Store(initialState: DestinationPickerState(),
                                            reducer: destinationPickerReducer,
-                                           environment: ()))
+                                           environment: DestinationPickerEnvironment.mock ))
     }
 }

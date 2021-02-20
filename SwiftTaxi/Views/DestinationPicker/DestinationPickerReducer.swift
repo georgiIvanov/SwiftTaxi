@@ -8,13 +8,22 @@
 import Foundation
 import ComposableArchitecture
 
-let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPickerAction, Void> { state, action, _ in
+let destinationPickerReducer = Reducer<DestinationPickerState,
+                                       DestinationPickerAction,
+                                       DestinationPickerEnvironment> { state, action, environment in
     switch action {
     case let .destinationPick(place):
         return .none
-    case let .fromPlaceTextChanged(newText):
+    case let .toTextChanged(newText):
+        state.to = newText
+        return environment.searchPlaces(newText)
+    case let .fromTextChanged(newText):
+        state.from = newText
+        return environment.searchPlaces(newText)
+    case let .searchResponse(places):
+        state.searchResult = places
         return .none
-    case let .toPlaceTextChanged(newText):
+    case .pickFromMap:
         return .none
     }
 }

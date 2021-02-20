@@ -48,7 +48,7 @@ struct BottomSheetView<Content: View>: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                self.indicator.padding(.bottom, 4)
+                self.indicator.padding()
                 self.content
             }
             .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
