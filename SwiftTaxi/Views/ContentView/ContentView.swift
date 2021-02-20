@@ -24,6 +24,13 @@ struct ContentView: View {
                 MapView(config: viewStore.map)
                     .ignoresSafeArea()
                 VStack {
+                    Text(viewStore.currentLocationName ?? "Unknown")
+                        .padding()
+                        .background(Color.white)
+
+                    Spacer()
+                }
+                VStack {
                     BottomSheetView(
                         isOpen: viewStore.binding(get: { $0.dashboardShown },
                                                   send: {.dashboardShown($0) }),

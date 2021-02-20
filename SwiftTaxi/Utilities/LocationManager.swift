@@ -13,12 +13,11 @@ import Foundation
 struct LocationManager {
     var initialisation: (AnyHashable) -> Effect<Action, Error>
     var requestAuthorization: (AnyHashable) -> Effect<Never, Never>
-    var requestSingleLocation: (AnyHashable) -> Effect<Never, Never>
+    var startLocationUpdates: (AnyHashable) -> Effect<Never, Never>
 
     enum Action: Equatable {
         case authorizationDidChange(status: CLAuthorizationStatus)
-        case currentLocationDidChange(CLLocationCoordinate2D)
-        case currentLocationNameDidChange(String)
+        case currentLocationDidChange(CLLocation)
     }
 
     enum Error: Swift.Error, Equatable {
@@ -46,15 +45,11 @@ extension LocationManager {
 
                 let geoCoder = CLGeocoder()
                 let delegate = LocationManagerDelegate(
-                    geoCoder: geoCoder,
                     authorizationStatusDidChange: { status in
                         subscriber.send(.authorizationDidChange(status: status))
                     },
                     currentLocation: { location in
                         subscriber.send(.currentLocationDidChange(location))
-                    },
-                    currentLocationName: { name in
-                        subscriber.send(.currentLocationNameDidChange(name))
                     },
                     errorHandler: { error in
                         subscriber.send(completion: .failure(.locationError(error)))
@@ -65,7 +60,6 @@ extension LocationManager {
                 dependencies[id] = LocationDependencies(
                     locationManager: manager,
                     locationManagerDelegate: delegate,
-                    geoCoder: geoCoder,
                     subscriber: subscriber
                 )
 
@@ -79,7 +73,7 @@ extension LocationManager {
                 dependencies[id]?.locationManager.requestWhenInUseAuthorization()
             }
         },
-        requestSingleLocation: { id in
+        startLocationUpdates: { id in
             .fireAndForget {
                 dependencies[id]?.locationManager.startUpdatingLocation()
             }
@@ -90,29 +84,21 @@ extension LocationManager {
 private struct LocationDependencies {
     let locationManager: CLLocationManager
     let locationManagerDelegate: LocationManagerDelegate
-    let geoCoder: CLGeocoder
     let subscriber: Effect<LocationManager.Action, LocationManager.Error>.Subscriber
 }
 
 private var dependencies: [AnyHashable: LocationDependencies] = [:]
 
 private class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
-    let geoCoder: CLGeocoder
     var authorizationStatusDidChange: (CLAuthorizationStatus) -> Void
-    var currentLocation: (CLLocationCoordinate2D) -> Void
-    var currentLocationName: (String) -> Void
-
+    var currentLocation: (CLLocation) -> Void
     var errorHandler: (Swift.Error) -> Void
 
-    init(geoCoder: CLGeocoder,
-         authorizationStatusDidChange: @escaping (CLAuthorizationStatus) -> Void,
-         currentLocation: @escaping (CLLocationCoordinate2D) -> Void,
-         currentLocationName: @escaping (String) -> Void,
+    init(authorizationStatusDidChange: @escaping (CLAuthorizationStatus) -> Void,
+         currentLocation: @escaping (CLLocation) -> Void,
          errorHandler: @escaping (Swift.Error) -> Void) {
-        self.geoCoder = geoCoder
         self.authorizationStatusDidChange = authorizationStatusDidChange
         self.currentLocation = currentLocation
-        self.currentLocationName = currentLocationName
         self.errorHandler = errorHandler
     }
 
@@ -125,16 +111,7 @@ private class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
             return
         }
 
-        currentLocation(location.coordinate)
-
-        geoCoder.reverseGeocodeLocation(location) { [weak self] places, _ in
-
-            guard let place = places?.first else {
-                return
-            }
-
-            self?.currentLocationName(place.abbreviation)
-        }
+        currentLocation(location)
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -152,7 +129,7 @@ extension LocationManager {
         requestAuthorization: { _ in
             .none
         },
-        requestSingleLocation: { _ in
+        startLocationUpdates: { _ in
             .none
         }
     )
@@ -174,10 +151,9 @@ extension CLPlacemark {
     }
 }
 
-extension CLLocationCoordinate2D : Equatable {
-    static public func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+extension CLLocationCoordinate2D: Equatable {
+    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
         lhs.latitude == rhs.latitude &&
             lhs.longitude == rhs.longitude
     }
 }
-
