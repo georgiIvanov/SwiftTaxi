@@ -11,29 +11,29 @@ import SwiftUI
 
 struct ContentView: View {
     let store: Store<AppState, AppAction>
-
+    
     var body: some View {
-        WithViewStore(store) { viewStore in
-            GeometryReader { geometry in
+        GeometryReader { geometry in
+            WithViewStore(store) { viewStore in
                 ZStack {
                     MapView(
-                        store: store.scope(state: { $0.locationState },
+                        store: store.scope(state: \.locationState,
                                            action: { .location($0) })
                     )
-
+                    
                     VStack {
                         BottomSheetView(
-                            isOpen: viewStore.binding(get: { $0.dashboardShown },
+                            isOpen: viewStore.binding(get: \.dashboardShown,
                                                       send: { .dashboardShown($0) }),
                             maxHeight: geometry.size.height
                         ) {
                             if viewStore.pickDestination {
                                 DestinationPickerView(
-                                    store: store.scope(state: { $0.destinationPickerState },
+                                    store: store.scope(state: \.destinationPickerState,
                                                        action: { .destinationPicker($0) }))
                             } else {
                                 DestinationDashboard(
-                                    store: store.scope(state: { $0.destinationDashboardState },
+                                    store: store.scope(state: \.destinationDashboardState,
                                                        action: { .destinationDashboard($0) }
                                     )
                                 )

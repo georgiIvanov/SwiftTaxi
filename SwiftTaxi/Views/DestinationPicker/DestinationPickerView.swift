@@ -34,33 +34,19 @@ struct DestinationPickerView: View {
         GeometryReader { geometry in
             WithViewStore(store) { viewStore in
                 VStack {
-                    HStack {
-                        Image(systemName: "circle")
-                        TextField("",
-                                  text: viewStore.binding(get: { $0.from },
-                                                          send: DestinationPickerAction.fromTextChanged)
-                        )
-                        .frame(minHeight: 50)
-                        .background(Color.green)
-                    }
+                    SearchTextField(text: viewStore.binding(get: { $0.from },
+                                                            send: DestinationPickerAction.fromTextChanged),
+                                    content: { EmptyView() }, systemImage: "circle")
                     .frame(maxWidth: geometry.size.width * 0.9)
                     
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                        TextField("",
-                                  text: viewStore.binding(get: { $0.to },
-                                                          send: DestinationPickerAction.toTextChanged)
-                        )
-                        .frame(minHeight: 50)
-                        .background(Color.green)
-                        Divider()
-                            .frame(width: 1, height: 50, alignment: .center)
-                        Button("Map") {
-                            viewStore.send(.pickFromMap)
-                        }
-                    }
+                    SearchTextField(text: viewStore.binding(get: { $0.to },
+                                                            send: DestinationPickerAction.toTextChanged),
+                                    content: {
+                                        Button("Map") {
+                                            viewStore.send(.pickFromMap)
+                                        }
+                                    }, systemImage: "magnifyingglass")
                     .frame(maxWidth: geometry.size.width * 0.9)
-                    
                     
                     List {
                         ForEach(viewStore.searchResult) { place in

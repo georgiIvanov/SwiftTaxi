@@ -33,6 +33,7 @@
 		97BB57D425DFEC7F00F8E80D /* DestinationDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57D325DFEC7F00F8E80D /* DestinationDashboard.swift */; };
 		97BB57DC25E009E800F8E80D /* DestinationDashboardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57DB25E009E800F8E80D /* DestinationDashboardReducer.swift */; };
 		97E157C225E1440D006C29E1 /* DestinationPickerEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E157C125E1440D006C29E1 /* DestinationPickerEnvironment.swift */; };
+		97E157CA25E15339006C29E1 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E157C925E15339006C29E1 /* SearchTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		97BB57D325DFEC7F00F8E80D /* DestinationDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationDashboard.swift; sourceTree = "<group>"; };
 		97BB57DB25E009E800F8E80D /* DestinationDashboardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationDashboardReducer.swift; sourceTree = "<group>"; };
 		97E157C125E1440D006C29E1 /* DestinationPickerEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationPickerEnvironment.swift; sourceTree = "<group>"; };
+		97E157C925E15339006C29E1 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				975BBAE325E10A6200873B9F /* DestinationPickerView.swift */,
 				975BBAEE25E117D100873B9F /* DestinationPickerReducer.swift */,
 				97E157C125E1440D006C29E1 /* DestinationPickerEnvironment.swift */,
+				97E157C925E15339006C29E1 /* SearchTextField.swift */,
 			);
 			path = DestinationPicker;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				97B8999D25DFC46D00F4E195 /* AppAction.swift in Sources */,
 				97E157C225E1440D006C29E1 /* DestinationPickerEnvironment.swift in Sources */,
 				97B8995F25DF96D500F4E195 /* ContentView.swift in Sources */,
+				97E157CA25E15339006C29E1 /* SearchTextField.swift in Sources */,
 				97BB57CE25DFDCFA00F8E80D /* CommonDestinationReducer.swift in Sources */,
 				97BB57C225DFDBB700F8E80D /* Place.swift in Sources */,
 				975BBAC325E0496B00873B9F /* BottomSheetView.swift in Sources */,
