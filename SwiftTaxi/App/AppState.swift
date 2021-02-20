@@ -10,11 +10,7 @@ import CoreLocation
 import Foundation
 
 struct AppState: Equatable {
-    var map = MapConfig()
-    var alert: AlertState<AppAction>?
-    var currentLocationName: String?
-    var currentLocation: CLLocationCoordinate2D = .borovo
-    var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
+    var locationState = LocationState()
     var dashboardShown: Bool = false
     var pickDestination: Bool = false
     var destinationDashboardState = DestinationDashboardState(places: [])
