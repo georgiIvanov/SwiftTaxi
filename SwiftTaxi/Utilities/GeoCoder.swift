@@ -18,9 +18,7 @@ extension GeoCoder {
         lookUpName: { location in
             .future { callback in
                 CLGeocoder().reverseGeocodeLocation(location) { places, _ in
-                    guard let place = places?.first else {
-                        return
-                    }
+                    guard let place = places?.first else { return }
                     callback(.success(place.abbreviation))
                 }
             }
