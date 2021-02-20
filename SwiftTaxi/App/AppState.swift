@@ -9,11 +9,14 @@ import ComposableArchitecture
 import CoreLocation
 import Foundation
 
-struct AppState: Equatable {    
+struct AppState: Equatable {
+    var map = MapConfig()
     var alert: AlertState<AppAction>?
+    var currentLocationName: String?
+    var currentLocation: CLLocationCoordinate2D = .borovo
     var locationAuthorizationStatus = CLAuthorizationStatus.notDetermined
-    var destinationDashboardState: DestinationDashboardState = DestinationDashboardState(places: [])
-    var dashboardShown: Bool
+    var dashboardShown: Bool = false
+    var destinationDashboardState = DestinationDashboardState(places: [])
 }
 
 extension AppState {
@@ -29,11 +32,9 @@ extension AppState {
                     Place.mallBulgaria,
                     Place.banichki,
                     Place.lidl,
-                    Place.mallBulgaria,
+                    Place.mallBulgaria
                 ]
-            ),
-            dashboardShown: false
+            )
         )
     }()
-    
 }

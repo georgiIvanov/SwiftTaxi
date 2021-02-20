@@ -12,18 +12,16 @@ import SwiftUI
 struct ContentView: View {
     let store: Store<AppState, AppAction>
     @ObservedObject var viewStore: ViewStore<AppState, AppAction>
-    @State var region = MKCoordinateRegion.sofia
     
     init(store: Store<AppState, AppAction>) {
         self.store = store
         self.viewStore = ViewStore(store)
         viewStore.send(.startUp)
     }
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                MapView(region: $region)
+                MapView(config: viewStore.map)
                     .ignoresSafeArea()
                 VStack {
                     BottomSheetView(

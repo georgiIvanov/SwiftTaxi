@@ -9,25 +9,28 @@ import MapKit
 import SwiftUI
 
 struct MapView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var config: MapConfig
 
     let places: [Place] = [.banichki, .lidl, .mallBulgaria]
 
-    @Binding var region: MKCoordinateRegion
-
     var body: some View {
         ZStack {
-            VStack {
-                Map(coordinateRegion: $region,
-                    showsUserLocation: true,
-                    annotationItems: places,
-                    annotationContent: { place in
-                        MapMarker(coordinate: place.coordinate, tint: .green)
-                    })
+            Map(coordinateRegion: $config.region,
+                showsUserLocation: true,
+                annotationItems: places,
+                annotationContent: { place in
+                    MapMarker(coordinate: place.coordinate, tint: .green)
+                })
 
-                Text("LatitudeDelta: \(region.span.latitudeDelta)")
-                Text("LongitudeDelta: \(region.span.longitudeDelta)")
+            HStack {
+                Spacer()
+                Button(action: { config.moveToCurrentLocation() }) {
+                    Image(systemName: "location.circle")
+                        .font(.system(size: 32))
+                        .padding()
+                }
             }
+
             Image(systemName: "mappin")
                 .font(.system(size: 40, weight: .heavy))
         }
@@ -36,19 +39,17 @@ struct MapView: View {
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(region: .constant(.sofia))
+        MapView(config: MapConfig())
     }
 }
 
-extension MKCoordinateRegion {
-    static let sofia = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(
-            latitude: 42.661280062038365,
-            longitude: 23.28120068
-        ),
-        span: MKCoordinateSpan(
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05
-        )
+extension CLLocationCoordinate2D {
+    static let borovo = CLLocationCoordinate2D(
+        latitude: 42.661280062038365,
+        longitude: 23.28120068
+    )
+    static let current = CLLocationCoordinate2D(
+        latitude: 42.667,
+        longitude: 23.28120068
     )
 }
