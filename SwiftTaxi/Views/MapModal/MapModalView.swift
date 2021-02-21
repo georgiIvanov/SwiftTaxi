@@ -45,6 +45,7 @@ struct MapModalView: View {
                             viewStore.send(.doneButtonTap)
                         }) {
                             Text("Done")
+                                .font(.title3)
                                 .padding([.leading, .trailing],
                                          geometry.size.width * 0.3)
                                 .padding([.top, .bottom], 20)

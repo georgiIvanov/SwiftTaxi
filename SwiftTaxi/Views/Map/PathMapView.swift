@@ -40,7 +40,14 @@ struct PathMapView: UIViewRepresentable {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
         mapView.setRegion(region, animated: true)
-        mapView.showAnnotations([from, to], animated: true)
+        let fromPoint = MKPointAnnotation()
+        fromPoint.coordinate = from.coordinate
+        fromPoint.title = "From"
+        let toPoint = MKPointAnnotation()
+        toPoint.coordinate = to.coordinate
+        toPoint.title = "To"
+
+        mapView.showAnnotations([fromPoint, toPoint], animated: true)
         return mapView
     }
 
