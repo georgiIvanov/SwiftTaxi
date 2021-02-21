@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		440C7F3125E15A8900AF7743 /* LocalSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440C7F3025E15A8900AF7743 /* LocalSearch.swift */; };
 		44269F7F25E10403008D92B4 /* GeoCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44269F7E25E10403008D92B4 /* GeoCoder.swift */; };
+		445D4DFB25E1B70500ED606A /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445D4DFA25E1B70500ED606A /* PathFinder.swift */; };
 		4464409825DFD08900C48303 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4464409725DFD08900C48303 /* MapView.swift */; };
 		446440A725DFF5B700C48303 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446440A625DFF5B700C48303 /* LocationManager.swift */; };
+		44BE2B6225E256B300580128 /* PathMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2B6125E256B300580128 /* PathMapView.swift */; };
 		44FAA85E25E10FCF0014E9C5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FAA85D25E10FCF0014E9C5 /* Location.swift */; };
 		97550E1325E188180013DFB6 /* MapModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97550E1225E188180013DFB6 /* MapModalView.swift */; };
 		97550E1825E1A24D0013DFB6 /* BottomSheetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97550E1725E1A24D0013DFB6 /* BottomSheetContainer.swift */; };
@@ -63,8 +65,10 @@
 /* Begin PBXFileReference section */
 		440C7F3025E15A8900AF7743 /* LocalSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalSearch.swift; sourceTree = "<group>"; };
 		44269F7E25E10403008D92B4 /* GeoCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCoder.swift; sourceTree = "<group>"; };
+		445D4DFA25E1B70500ED606A /* PathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathFinder.swift; sourceTree = "<group>"; };
 		4464409725DFD08900C48303 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		446440A625DFF5B700C48303 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		44BE2B6125E256B300580128 /* PathMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathMapView.swift; sourceTree = "<group>"; };
 		44FAA85D25E10FCF0014E9C5 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		97550E1225E188180013DFB6 /* MapModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModalView.swift; sourceTree = "<group>"; };
 		97550E1725E1A24D0013DFB6 /* BottomSheetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetContainer.swift; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				4464409725DFD08900C48303 /* MapView.swift */,
+				44BE2B6125E256B300580128 /* PathMapView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 				446440A625DFF5B700C48303 /* LocationManager.swift */,
 				44269F7E25E10403008D92B4 /* GeoCoder.swift */,
 				440C7F3025E15A8900AF7743 /* LocalSearch.swift */,
+				445D4DFA25E1B70500ED606A /* PathFinder.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -447,6 +453,7 @@
 				97550E2B25E257730013DFB6 /* MapModalReducer.swift in Sources */,
 				440C7F3125E15A8900AF7743 /* LocalSearch.swift in Sources */,
 				97B8995D25DF96D500F4E195 /* SceneDelegate.swift in Sources */,
+				445D4DFB25E1B70500ED606A /* PathFinder.swift in Sources */,
 				97BB57D425DFEC7F00F8E80D /* DestinationDashboard.swift in Sources */,
 				97BB57DC25E009E800F8E80D /* DestinationDashboardReducer.swift in Sources */,
 				97B899A725DFC4DA00F4E195 /* AppReducer.swift in Sources */,
@@ -462,6 +469,7 @@
 				97B8999825DFC44400F4E195 /* AppState.swift in Sources */,
 				44FAA85E25E10FCF0014E9C5 /* Location.swift in Sources */,
 				975BBAE425E10A6200873B9F /* DestinationPickerView.swift in Sources */,
+				44BE2B6225E256B300580128 /* PathMapView.swift in Sources */,
 				97550E1D25E1A4CC0013DFB6 /* OrderStep.swift in Sources */,
 				975BBAEF25E117D100873B9F /* DestinationPickerReducer.swift in Sources */,
 				97B899A225DFC49200F4E195 /* AppEnvironment.swift in Sources */,
