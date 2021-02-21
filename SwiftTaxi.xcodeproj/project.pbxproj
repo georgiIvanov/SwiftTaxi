@@ -93,7 +93,6 @@
 		97B8997825DF96D600F4E195 /* SwiftTaxiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftTaxiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97B8997C25DF96D600F4E195 /* SwiftTaxiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTaxiUITests.swift; sourceTree = "<group>"; };
 		97B8997E25DF96D600F4E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		97B8998D25DF97B300F4E195 /* SwiftTaxi.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftTaxi.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		97B8999725DFC44400F4E195 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		97B8999C25DFC46D00F4E195 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		97B899A125DFC49200F4E195 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
@@ -195,7 +194,6 @@
 		97B8995925DF96D500F4E195 /* SwiftTaxi */ = {
 			isa = PBXGroup;
 			children = (
-				97B8998D25DF97B300F4E195 /* SwiftTaxi.playground */,
 				97BB57A025DFC7CE00F8E80D /* Utilities */,
 				97B899AB25DFC56D00F4E195 /* App */,
 				44FAA85C25E10FB40014E9C5 /* Location */,
