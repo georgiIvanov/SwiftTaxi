@@ -52,13 +52,12 @@ struct SearchTextField: View {
 
             if isEditingInternal {
                 Divider()
-                    .frame(width: 1, height: 50, alignment: .center)
                 Button(action: {
                     viewStore.send(.presentModalMap(true, viewStore.lastEditing))
                 }, label: {
                     Image(systemName: "map.fill")
                 })
             }
-        }
+        }.fixedSize(horizontal: false, vertical: true)
     }
 }

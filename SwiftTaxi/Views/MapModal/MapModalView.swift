@@ -5,9 +5,9 @@
 //  Created by Voro on 20.02.21.
 //
 
-import SwiftUI
 import ComposableArchitecture
 import MapKit
+import SwiftUI
 
 enum MapModalAction: Equatable {
     case location(LocationAction)
@@ -17,9 +17,8 @@ enum MapModalAction: Equatable {
 }
 
 struct MapModalView: View {
-    
     let store: Store<MapModalViewState, MapModalAction>
-    
+
     var body: some View {
         GeometryReader { geometry in
             WithViewStore(store) { viewStore in
@@ -30,15 +29,19 @@ struct MapModalView: View {
                     )
                     VStack {
                         HStack {
-                            Button("Close") {
+                            Button {
                                 viewStore.send(.closeMap)
+                            } label: {
+                                Image(systemName: "xmark.circle")
+                                    .font(.system(size: 32))
+                                    .padding()
                             }
-                            .padding()
+
                             Spacer()
                         }
                         Spacer()
-                        
-                        Button(action:  {
+
+                        Button(action: {
                             viewStore.send(.doneButtonTap)
                         }) {
                             Text("Done")
@@ -52,7 +55,6 @@ struct MapModalView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .offset(y: -30)
                     }
-                    
                 }
             }
         }
