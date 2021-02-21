@@ -21,7 +21,7 @@ struct DestinationDashboard: View {
             VStack {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.blue)
+                        .fill(Color.blue.opacity(0.73))
                         .frame(maxWidth: .infinity,
                                minHeight: 60,
                                maxHeight: 60)
@@ -60,6 +60,7 @@ struct DestinationDashboard: View {
                 Spacer()
             }
             .background(Color.offWhite)
+            .cornerRadius(16)
             .onAppear {
                 viewStore.send(.loadCommonDestinations)
             }
