@@ -32,6 +32,9 @@ struct ContentView: View {
                     }
                     .ignoresSafeArea(.container, edges: .bottom)
                 }
+                .fullScreenCover(isPresented: .constant(viewStore.step.isModalMapPresented)) {
+                    MapModalView(store: store)
+                }
             }
         }
     }

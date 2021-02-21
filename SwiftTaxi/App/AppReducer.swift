@@ -28,10 +28,13 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
+    case let .destinationPicker(.presentModalMap(present, direction)):
+        state.step = present ? .pickModalMap(direction) : .pickDestination(direction)
+        return .none
     case .location, .destinationPicker:
         return .none
     case .destinationDashboard(.whereToTap):
-        state.step = .pickDestination(nil)
+        state.step = .pickDestination(.to)
         state.destinationPickerState.selectedLocation = state.locationState.location
         return .none
     case .dashboardShown(let shown):

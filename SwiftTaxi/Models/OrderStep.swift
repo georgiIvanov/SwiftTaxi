@@ -9,7 +9,7 @@ import Foundation
 
 enum OrderStep: Equatable {
     case dashboard(ModalSize)
-    case pickDestination(Direction?)
+    case pickDestination(Direction)
     case pickModalMap(Direction)
     case placeOrder
 }
@@ -17,7 +17,16 @@ enum OrderStep: Equatable {
 extension OrderStep {
     var isDashboardExpanded: Bool {
         switch self {
-        case .dashboard(.large), .pickDestination(_):
+        case .dashboard(.large), .pickDestination(_), .pickModalMap(_):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isModalMapPresented: Bool {
+        switch self {
+        case .pickModalMap(_):
             return true
         default:
             return false

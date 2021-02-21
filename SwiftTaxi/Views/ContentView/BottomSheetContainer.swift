@@ -15,7 +15,7 @@ struct BottomSheetContainer: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             switch viewStore.step {
-            case .pickDestination(_):
+            case .pickDestination(_), .pickModalMap(_):
                 DestinationPickerView(
                     store: store.scope(state: \.destinationPickerState,
                                        action: { .destinationPicker($0) }))
@@ -24,8 +24,6 @@ struct BottomSheetContainer: View {
                     store: store.scope(state: \.destinationDashboardState,
                                        action: { .destinationDashboard($0) }))
             case .placeOrder:
-                EmptyView()
-            case .pickModalMap(_):
                 EmptyView()
             }
         }

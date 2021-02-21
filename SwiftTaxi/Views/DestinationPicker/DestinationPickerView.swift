@@ -20,9 +20,9 @@ enum DestinationPickerAction: Equatable {
     case searchResponse([Place])
     case destinationPick(Place)
     case pickFromMap
-    case editing(Direction?)
+    case editing(Direction)
     case localSearch(String)
-    case presentModalMap(Bool)
+    case presentModalMap(Bool, Direction)
 }
 
 struct DestinationPickerState: Equatable {
@@ -38,8 +38,7 @@ struct DestinationPickerState: Equatable {
     var selectedLocation = CLLocation()
     var from: String = ""
     var to: String = ""
-    var lastEditing: Direction? = nil
-    var isModalMapPresented = false
+    var lastEditing: Direction = .from
     
     var fromPlace: Place?
     var toPlace: Place?
@@ -74,11 +73,7 @@ struct DestinationPickerView: View {
                                                 send: DestinationPickerAction.toTextChanged),
                         content: {
                             Button("Map") {
-                                viewStore.send(.presentModalMap(true))
-                            }
-                            .fullScreenCover(isPresented: viewStore.binding(get: \.isModalMapPresented,
-                                                                            send: DestinationPickerAction.presentModalMap)) {
-                                MapModalView()
+                                viewStore.send(.presentModalMap(true, viewStore.lastEditing))
                             }
                         }, systemImage: "magnifyingglass")
                         .frame(maxWidth: geometry.size.width * 0.9)

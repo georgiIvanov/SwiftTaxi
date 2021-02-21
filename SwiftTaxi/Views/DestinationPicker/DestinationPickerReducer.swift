@@ -22,9 +22,6 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
         case .from:
             state.fromPlace = place
             break
-        case .none:
-            print("No text field was previously selected, but place is picked, is it to or from?")
-            break
         }
         return .none
     case .toTextChanged(let newText):
@@ -38,14 +35,11 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
         return .none
     case .pickFromMap:
         return .none
-    case .editing(.some(.to)):
+    case .editing(.to):
         state.lastEditing = .to
         return .none
-    case .editing(.some(.from)):
+    case .editing(.from):
         state.lastEditing = .from
-        return .none
-    case .editing(.none):
-        print("no editing")
         return .none
     case .localSearch(let searchTerm):
         return environment.localSearch
@@ -54,8 +48,7 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
             .receive(on: environment.mainQueue)
             .map { .searchResponse($0.flatMap(Place.getBothPlaces)) }
             .eraseToEffect()
-    case let .presentModalMap(present):
-        state.isModalMapPresented = present
+    case .presentModalMap(_, _):
         return .none
     }
 }
