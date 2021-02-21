@@ -17,9 +17,11 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
     case let .destinationPick(place):
         switch state.lastEditing {
         case .to:
+            state.to = place.name
             state.toPlace = place
             break
         case .from:
+            state.from = place.name
             state.fromPlace = place
             break
         }
