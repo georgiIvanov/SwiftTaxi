@@ -55,7 +55,6 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
         state.pathMapState.region = state.locationState.region
         state.pathMapState.from = .init(coordinate: from.coordinate)
         state.pathMapState.to = .init(coordinate: to.coordinate)
-        state.step = .placeOrder
         return .init(value: .pathMap(.findPath))
     case .destinationPicker(.presentModalMap(let present, let direction)):
         state.step = present ? .pickModalMap(direction) : .pickDestination(direction)
@@ -82,13 +81,17 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
         state.destinationPickerState.setPlace(place, forDirection: state.destinationPickerState.lastEditing)
         if state.destinationPickerState.pickedBothPlaces {
             state.step = .placeOrder
+            return .init(value: .showPath(from: state.destinationPickerState.fromPlace,
+                                          to: state.destinationPickerState.toPlace))
         } else {
             state.step = .pickDestination(state.mapModalState.direction)
+            return .none
         }
-        return .none
     case .destinationPicker(.pickedBothDestinations):
         state.step = .placeOrder
-        return .none
+        return .init(value: .showPath(from: state.destinationPickerState.fromPlace,
+                                      to: state.destinationPickerState.toPlace))
+    
     case .location, .destinationPicker, .pathMap, .mapModalAction, .destinationDashboard:
         return .none
     }
