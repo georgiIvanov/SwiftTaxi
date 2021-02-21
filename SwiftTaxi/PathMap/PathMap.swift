@@ -11,7 +11,7 @@ import Foundation
 import MapKit
 
 struct PathMapState: Equatable {
-    var polyline = MKPolyline()
+    var route = MKRoute()
     var region = MKCoordinateRegion()
     var from = MKPlacemark(coordinate: .init()) // Weird behaviour if empty
     var to = MKPlacemark(coordinate: .init())
@@ -37,7 +37,7 @@ let pathMapReducer = Reducer<PathMapState, PathMapAction, PathMapEnvironment> {
             .map(PathMapAction.pathFound)
             .eraseToEffect()
     case .pathFound(let route):
-        state.polyline = route.polyline
+        state.route = route
         return .none
     }
 }

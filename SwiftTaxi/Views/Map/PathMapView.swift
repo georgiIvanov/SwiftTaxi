@@ -18,7 +18,7 @@ struct PathContentView: View {
                 region: viewStore.region,
                 from: viewStore.from,
                 to: viewStore.to,
-                polyline: viewStore.polyline
+                polyline: viewStore.route.polyline
             )
             .ignoresSafeArea()
         }

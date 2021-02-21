@@ -47,6 +47,7 @@ struct DestinationPickerView: View {
                     )
                 }
                 .padding()
+                .background(Color.offWhite.opacity(0.25))
 
                 List {
                     ForEach(viewStore.searchResult) { place in

@@ -23,8 +23,9 @@ struct BottomSheetContainer: View {
                 DestinationDashboard(
                     store: store.scope(state: \.destinationDashboardState,
                                        action: { .destinationDashboard($0) }))
-            case .placeOrder:
-                EmptyView()
+            case .viewOrder:
+                OrderView(store: store.scope(state: \.orderState,
+                                             action: { .order($0) }))
             }
         }
     }

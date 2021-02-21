@@ -17,6 +17,7 @@ struct AppState: Equatable {
     var destinationPickerState = DestinationPickerState()
     var mapModalState = MapModalViewState()
     var pathMapState = PathMapState()
+    var orderState = OrderState()
 }
 
 extension AppState {

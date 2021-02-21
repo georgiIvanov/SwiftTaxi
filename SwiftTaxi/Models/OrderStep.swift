@@ -11,7 +11,7 @@ enum OrderStep: Equatable {
     case dashboard(ModalSize)
     case pickDestination(Direction)
     case pickModalMap(Direction)
-    case placeOrder
+    case viewOrder
 }
 
 extension OrderStep {
@@ -35,7 +35,7 @@ extension OrderStep {
 
     var isShowPathPresented: Bool {
         switch self {
-        case .placeOrder:
+        case .viewOrder:
             return true
         default:
             return false

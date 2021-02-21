@@ -52,10 +52,11 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
     case .destinationDashboard(.pickCommonPlace(let place)):
-        state.step = .placeOrder
-        return .init(value: .showPath(from: state.locationState.locationPlace!,
-                                      to: place))
-    case .showPath(let from, let to):
+        return .init(value: .getPath(from: state.locationState.locationPlace!,
+                                     to: place))
+    case .getPath(let from, let to):
+        state.orderState.to = to
+        state.orderState.from = from
         state.pathMapState.region = state.locationState.region
         state.pathMapState.from = .init(coordinate: from.coordinate)
         state.pathMapState.to = .init(coordinate: to.coordinate)
@@ -84,19 +85,25 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
     case .mapModalAction(.pickPlaceFromMap(let place)):
         state.destinationPickerState.setPlace(place, forDirection: state.destinationPickerState.lastEditing)
         if state.destinationPickerState.pickedBothPlaces {
-            state.step = .placeOrder
-            return .init(value: .showPath(from: state.destinationPickerState.fromPlace,
+            return .init(value: .getPath(from: state.destinationPickerState.fromPlace,
                                           to: state.destinationPickerState.toPlace))
         } else {
             state.step = .pickDestination(state.mapModalState.direction)
             return .none
         }
     case .destinationPicker(.pickedBothDestinations):
-        state.step = .placeOrder
-        return .init(value: .showPath(from: state.destinationPickerState.fromPlace,
+        return .init(value: .getPath(from: state.destinationPickerState.fromPlace,
                                       to: state.destinationPickerState.toPlace))
-
-    case .location, .destinationPicker, .pathMap, .mapModalAction, .destinationDashboard:
+    case let .pathMap(.pathFound(route)):
+        state.orderState.route = route
+        state.step = .viewOrder
+        return .none
+    case .location,
+         .destinationPicker,
+         .pathMap,
+         .mapModalAction,
+         .destinationDashboard,
+         .order:
         return .none
     }
 }
