@@ -47,7 +47,7 @@ struct SearchTextField: View {
             })
                 .font(.body)
                 .padding(8)
-                .background(Color.offWhite)
+                .background(Color(UIColor.secondarySystemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
             if isEditingInternal {

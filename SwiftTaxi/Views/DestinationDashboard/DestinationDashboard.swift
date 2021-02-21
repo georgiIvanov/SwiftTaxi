@@ -61,7 +61,7 @@ struct DestinationDashboard: View {
 
                 Spacer()
             }
-            .background(Color.offWhite)
+            .background(Color(UIColor.secondarySystemBackground))
             .cornerRadius(16)
             .onAppear {
                 viewStore.send(.loadCommonDestinations)
@@ -104,8 +104,4 @@ struct DestinationDashboard_Previews: PreviewProvider {
                 reducer: destinationDashboardReducer,
                 environment: .mock))
     }
-}
-
-extension Color {
-    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
 }
