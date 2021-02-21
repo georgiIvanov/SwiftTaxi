@@ -60,13 +60,16 @@ struct MapView: View {
                 }
                 VStack {
                     Text(viewStore.locationPlace?.name ?? "Unknown")
-                        .padding()
+                        .padding(12)
                         .background(Color.white)
+                        .cornerRadius(32)
+                        .shadow(color: Color.offWhite, radius: 6, x: 3, y: 8)
 
                     Spacer()
                 }
                 Image(systemName: "mappin")
                     .font(.system(size: 40, weight: .heavy))
+                    .offset(x: 0, y: -20)
             }
             .alert(self.store.scope(state: { $0.alert }),
                    dismiss: .dismissAuthorizationStateAlert)
