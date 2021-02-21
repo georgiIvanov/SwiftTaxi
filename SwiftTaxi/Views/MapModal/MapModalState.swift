@@ -8,9 +8,9 @@
 import Foundation
 
 struct MapModalViewState: Equatable {
-    var pickLocation: Place?
-    var direction: Direction
-    var locationState: LocationState
+    var pickLocation: Place? = nil
+    var direction: Direction = .to
+    var locationState = LocationState()
 }
 
 extension MapModalViewState {

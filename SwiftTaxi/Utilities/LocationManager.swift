@@ -42,7 +42,8 @@ extension LocationManager {
                 let manager = CLLocationManager()
 
                 manager.desiredAccuracy = kCLLocationAccuracyBest
-
+                manager.distanceFilter = 2.0
+                
                 let geoCoder = CLGeocoder()
                 let delegate = LocationManagerDelegate(
                     authorizationStatusDidChange: { status in

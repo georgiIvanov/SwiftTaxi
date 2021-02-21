@@ -10,8 +10,6 @@ import ComposableArchitecture
 import MapKit
 
 enum MapModalAction: Equatable {
-    case getPlaceFromLocation
-    case getPlaceResponse(Place)
     case location(LocationAction)
     case closeMap
 }
@@ -41,6 +39,6 @@ struct MapModalView_Previews: PreviewProvider {
     static var previews: some View {
         MapModalView(store: Store(initialState: MapModalViewState.mock,
                                   reducer: mapModalReducer,
-                                  environment: ()))
+                                  environment: LocationEnvironment.mock))
     }
 }

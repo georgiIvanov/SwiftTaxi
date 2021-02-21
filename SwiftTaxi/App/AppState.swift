@@ -15,20 +15,7 @@ struct AppState: Equatable {
     var step: OrderStep = .dashboard(.medium)
     var destinationDashboardState = DestinationDashboardState(places: [])
     var destinationPickerState = DestinationPickerState()
-    
-    var mapModalState: MapModalViewState {
-        get {
-            MapModalViewState(
-                pickLocation: destinationPickerState.currentPickingPlace,
-                direction: destinationPickerState.lastEditing,
-                locationState: locationState)
-        }
-        
-        set {
-            destinationPickerState.setPlace(newValue.pickLocation,
-                                            forDirection: newValue.direction)
-        }
-    }
+    var mapModalState = MapModalViewState()
 }
 
 extension AppState {
