@@ -40,5 +40,10 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
     case .dashboardShown(let shown):
         state.step = .dashboard(shown ? .large : .medium)
         return .none
+    case .mapModalAction(.closeMap):
+        state.step = .pickDestination(state.mapModalState.direction)
+        return .none
+    case .mapModalAction(_):
+        return .none
     }
 }

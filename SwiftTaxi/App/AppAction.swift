@@ -13,4 +13,5 @@ enum AppAction: Equatable {
     case destinationDashboard(DestinationDashboardAction)
     case destinationPicker(DestinationPickerAction)
     case dashboardShown(Bool)
+    case mapModalAction(MapModalAction)
 }

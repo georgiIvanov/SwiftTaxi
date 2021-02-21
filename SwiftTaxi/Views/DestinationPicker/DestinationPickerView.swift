@@ -6,7 +6,6 @@
 //
 
 import ComposableArchitecture
-import MapKit
 import SwiftUI
 
 enum Direction: Equatable {
@@ -23,27 +22,6 @@ enum DestinationPickerAction: Equatable {
     case editing(Direction)
     case localSearch(String)
     case presentModalMap(Bool, Direction)
-}
-
-struct DestinationPickerState: Equatable {
-    var selectedRegion: MKCoordinateRegion {
-        let commonDelta: CLLocationDegrees = 25 / 111
-        let span = MKCoordinateSpan(
-            latitudeDelta: commonDelta,
-            longitudeDelta: commonDelta)
-        return MKCoordinateRegion(center: selectedLocation.coordinate,
-                                  span: span)
-    }
-
-    var selectedLocation = CLLocation()
-    var from: String = ""
-    var to: String = ""
-    var lastEditing: Direction = .from
-    
-    var fromPlace: Place?
-    var toPlace: Place?
-    
-    var searchResult: [Place] = []
 }
 
 struct DestinationPickerView: View {
