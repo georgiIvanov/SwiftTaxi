@@ -14,6 +14,11 @@ struct Place: Identifiable, Equatable, Hashable {
     let name: String
     let location: CLLocation
     
+    init(location: CLLocation) {
+        self.name = ""
+        self.location = location
+    }
+    
     init(name: String, latitude: Double, longitude: Double) {
         self.name = name
         self.location = CLLocation(latitude: latitude, longitude: longitude)
@@ -67,6 +72,8 @@ extension Place {
 }
 
 extension Place {
+    static let empty = Place(name: "", latitude: 0, longitude: 0)
+    
     static let borovo = Place(name: "Banichki",
                               latitude: 42.6682,
                               longitude: 23.2811)

@@ -16,15 +16,22 @@ let mapModalReducer = Reducer<MapModalViewState, MapModalAction, LocationEnviron
                                 .init(locationManager: $0.locationManager,
                                       geoCoder: $0.geoCoder,
                                       mainQueue: $0.mainQueue)
-                            })//,
-    //mapModalViewReducer
+                            }),
+    mapModalViewReducer
 )
     
     
-//private let mapModalViewReducer = Reducer<MapModalViewState, MapModalAction, LocationEnvironment> { state, action, _ in
-//    switch action {
-//    default:
-//        return .none
-//    }
-//}
+private let mapModalViewReducer = Reducer<MapModalViewState, MapModalAction, LocationEnvironment> { state, action, env in
+    switch action {
+    case let .location(.locationLookupResponse(.some(place))):
+        state.pickLocation = place
+        return .none
+    case .doneButtonTap:
+        return .init(value: .pickPlaceFromMap(state.pickLocation))
+    case .location,
+         .pickPlaceFromMap,
+         .closeMap:
+        return .none
+    }
+}
 

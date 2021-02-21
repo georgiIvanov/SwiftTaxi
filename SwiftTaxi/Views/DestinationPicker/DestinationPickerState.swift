@@ -21,10 +21,10 @@ struct DestinationPickerState: Equatable {
     var selectedLocation = CLLocation()
     var from: String = ""
     var to: String = ""
-    var lastEditing: Direction = .from
+    var lastEditing: Direction = .to
     
-    var fromPlace: Place?
-    var toPlace: Place?
+    var fromPlace: Place = .empty
+    var toPlace: Place = .empty
     
     var searchResult: [Place] = []
 }
@@ -39,12 +39,18 @@ extension DestinationPickerState {
         }
     }
     
-    mutating func setPlace(_ place: Place?, forDirection: Direction) {
+    var pickedBothPlaces: Bool {
+        return fromPlace != .empty && toPlace != .empty
+    }
+    
+    mutating func setPlace(_ place: Place, forDirection: Direction) {
         switch forDirection {
         case .from:
             fromPlace = place
+            from = place.name
         case .to:
             toPlace = place
+            to = place.name
         }
     }
 }

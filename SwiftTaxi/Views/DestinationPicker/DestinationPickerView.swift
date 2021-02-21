@@ -22,6 +22,7 @@ enum DestinationPickerAction: Equatable {
     case editing(Direction)
     case localSearch(String)
     case presentModalMap(Bool, Direction)
+    case pickedBothDestinations
 }
 
 struct DestinationPickerView: View {

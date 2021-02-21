@@ -8,7 +8,7 @@
 import Foundation
 
 struct MapModalViewState: Equatable {
-    var pickLocation: Place? = nil
+    var pickLocation: Place = .banichki
     var direction: Direction = .to
     var locationState = LocationState()
 }

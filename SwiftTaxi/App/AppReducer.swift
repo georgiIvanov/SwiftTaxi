@@ -52,18 +52,17 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
     case .destinationPicker(.presentModalMap(let present, let direction)):
         state.step = present ? .pickModalMap(direction) : .pickDestination(direction)
         state.mapModalState = MapModalViewState(
-            pickLocation: state.destinationPickerState.currentPickingPlace,
+            pickLocation: Place(location: state.locationState.location),
             direction: direction,
             locationState: state.locationState)
-        return .none
-    case .destinationPicker(.destinationPick(let place)):
-        let currentPlace: Place = .init(name: "Current", coordinate: state.locationState.userCurrentLocation.coordinate)
-        return .init(value: .showPath(from: currentPlace, to: place))
-    case .location, .destinationPicker, .pathMap:
         return .none
     case .destinationDashboard(.whereToTap):
         state.step = .pickDestination(.to)
         state.destinationPickerState.selectedLocation = state.locationState.location
+        if let initialFrom = state.locationState.locationPlace {
+            state.destinationPickerState.from = initialFrom.name
+            state.destinationPickerState.fromPlace = initialFrom
+        }
         return .none
     case .dashboardShown(let shown):
         state.step = .dashboard(shown ? .large : .medium)
@@ -71,7 +70,20 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
     case .mapModalAction(.closeMap):
         state.step = .pickDestination(state.mapModalState.direction)
         return .none
+    case let .mapModalAction(.pickPlaceFromMap(place)):
+        state.destinationPickerState.setPlace(place, forDirection: state.destinationPickerState.lastEditing)
+        if state.destinationPickerState.pickedBothPlaces {
+            state.step = .placeOrder
+        } else {
+            state.step = .pickDestination(state.mapModalState.direction)
+        }
+        return .none
     case .mapModalAction:
+        return .none
+    case .destinationPicker(.pickedBothDestinations):
+        state.step = .placeOrder
+        return .none
+    case .location, .pathMap, .destinationPicker:
         return .none
     }
 }

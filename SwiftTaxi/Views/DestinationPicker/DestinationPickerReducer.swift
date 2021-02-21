@@ -25,7 +25,12 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
             state.fromPlace = place
             break
         }
-        return .none
+        
+        if state.pickedBothPlaces {
+            return .init(value: .pickedBothDestinations)
+        } else {
+            return .none
+        }
     case .toTextChanged(let newText):
         state.to = newText
         return .init(value: .localSearch(newText))
@@ -51,6 +56,8 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
             .map { .searchResponse($0.flatMap(Place.getBothPlaces)) }
             .eraseToEffect()
     case .presentModalMap(_, _):
+        return .none
+    case .pickedBothDestinations:
         return .none
     }
 }

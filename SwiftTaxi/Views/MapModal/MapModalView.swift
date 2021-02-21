@@ -11,7 +11,9 @@ import MapKit
 
 enum MapModalAction: Equatable {
     case location(LocationAction)
+    case pickPlaceFromMap(Place)
     case closeMap
+    case doneButtonTap
 }
 
 struct MapModalView: View {
@@ -26,9 +28,31 @@ struct MapModalView: View {
                         store: store.scope(state: \.locationState,
                                            action: { .location($0) })
                     )
-                    Button("Close") {
-                        viewStore.send(.closeMap)
+                    VStack {
+                        HStack {
+                            Button("Close") {
+                                viewStore.send(.closeMap)
+                            }
+                            .padding()
+                            Spacer()
+                        }
+                        Spacer()
+                        
+                        Button(action:  {
+                            viewStore.send(.doneButtonTap)
+                        }) {
+                            Text("Done")
+                                .padding([.leading, .trailing],
+                                         geometry.size.width * 0.3)
+                                .padding([.top, .bottom], 20)
+                                .foregroundColor(.black)
+                        }
+                        .background(Color.yellow)
+                        .contentShape(Rectangle())
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .offset(y: -30)
                     }
+                    
                 }
             }
         }
