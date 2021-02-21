@@ -11,6 +11,7 @@ import MapKit
 
 struct LocalSearch {
     var search: (MKCoordinateRegion, String) -> Effect<[MKMapItem], Never>
+    var interestingPlaces: (MKCoordinateRegion) -> Effect<[MKMapItem], Never>
 }
 
 extension LocalSearch {
@@ -23,11 +24,20 @@ extension LocalSearch {
                 request.naturalLanguageQuery = text
 
                 let localSearch = MKLocalSearch(request: request)
-                localSearch.start { response, error in
-                    //TODO[ngenov]: Make that return errors again
-//                    if let error = error {
-//                        callback(.failure(error))
-//                    }
+                localSearch.start { response, _ in
+                    let items = response?.mapItems ?? []
+                    callback(.success(items))
+                }
+            }
+        },
+        interestingPlaces: { region in
+            .future { callback in
+                let request = MKLocalSearch.Request()
+                request.region = region
+                request.pointOfInterestFilter = .init(including: [.airport, .zoo, .hotel, .nightlife])
+
+                let localSearch = MKLocalSearch(request: request)
+                localSearch.start { response, _ in
                     let items = response?.mapItems ?? []
                     callback(.success(items))
                 }
@@ -40,6 +50,9 @@ extension LocalSearch {
     static let mock = LocalSearch(
         search: { _, _ in
             .init(value: [.init()])
+        },
+        interestingPlaces: { _ in
+            .init(value: [])
         }
     )
 }

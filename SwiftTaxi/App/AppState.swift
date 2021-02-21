@@ -13,7 +13,7 @@ import MapKit
 struct AppState: Equatable {
     var locationState = LocationState()
     var step: OrderStep = .dashboard(.medium)
-    var destinationDashboardState = DestinationDashboardState(places: [])
+    var destinationDashboardState = DestinationDashboardState()
     var destinationPickerState = DestinationPickerState()
     var mapModalState = MapModalViewState()
     var pathMapState = PathMapState()

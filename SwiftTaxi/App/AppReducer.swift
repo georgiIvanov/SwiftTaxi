@@ -38,7 +38,15 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
                                 pathFinder: $0.pathFinder,
                                 mainQueue: $0.mainQueue
                             )
-                            })
+                            }),
+    destinationDashboardReducer.pullback(state: \AppState.destinationDashboardState,
+                                         action: /AppAction.destinationDashboard,
+                                         environment: {
+                                             .init(
+                                                 localSearch: $0.localSearch,
+                                                 mainQueue: $0.mainQueue
+                                             )
+                                         })
 )
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
@@ -70,7 +78,7 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
     case .mapModalAction(.closeMap):
         state.step = .pickDestination(state.mapModalState.direction)
         return .none
-    case let .mapModalAction(.pickPlaceFromMap(place)):
+    case .mapModalAction(.pickPlaceFromMap(let place)):
         state.destinationPickerState.setPlace(place, forDirection: state.destinationPickerState.lastEditing)
         if state.destinationPickerState.pickedBothPlaces {
             state.step = .placeOrder
@@ -78,12 +86,10 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
             state.step = .pickDestination(state.mapModalState.direction)
         }
         return .none
-    case .mapModalAction:
-        return .none
     case .destinationPicker(.pickedBothDestinations):
         state.step = .placeOrder
         return .none
-    case .location, .pathMap, .destinationPicker:
+    case .location, .destinationPicker, .pathMap, .mapModalAction, .destinationDashboard:
         return .none
     }
 }

@@ -5,25 +5,25 @@
 //  Created by Voro on 19.02.21.
 //
 
-import SwiftUI
 import ComposableArchitecture
+import SwiftUI
 
 enum CommonDestinationAction {
     case setDestination(Place)
 }
 
 struct CommonDestinationView: View {
-    
     let store: Store<Place, CommonDestinationAction>
-    
+
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack {
                 Text(viewStore.name)
                     .font(.caption)
+                    .bold()
                     .lineLimit(nil)
-                    .padding([.top, .leading, .trailing], 4.0)
-                    .multilineTextAlignment(.leading)
+                    .padding(.top, 8.0)
+                    .padding([.leading, .trailing], 4.0)
                 Spacer()
                 HStack {
                     Image(systemName: "car")
@@ -33,10 +33,11 @@ struct CommonDestinationView: View {
                         .padding(8)
                 }
             }.padding(0)
-            .background(Color.green.opacity(0.5))
-            .onTapGesture {
-                viewStore.send(.setDestination(viewStore.state))
-            }
+                .background(Color.blue.opacity(0.33))
+                .cornerRadius(12)
+                .onTapGesture {
+                    viewStore.send(.setDestination(viewStore.state))
+                }
         }
     }
 }
@@ -44,8 +45,8 @@ struct CommonDestinationView: View {
 struct CommonDestinationView_Previews: PreviewProvider {
     static var previews: some View {
         CommonDestinationView(store: Store(initialState: .mallBulgaria,
-                                    reducer: commonDestinationReducer,
-                                    environment: ()))
+                                           reducer: commonDestinationReducer,
+                                           environment: ()))
             .previewLayout(.sizeThatFits)
     }
 }

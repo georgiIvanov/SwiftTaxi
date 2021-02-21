@@ -5,25 +5,17 @@
 //  Created by Voro on 19.02.21.
 //
 
-import SwiftUI
 import ComposableArchitecture
-
-struct DestinationDashboardState: Equatable {
-    let places: [Place]
-}
-
-enum DestinationDashboardAction {
-    case whereToTap
-}
+import MapKit
+import SwiftUI
 
 struct DestinationDashboard: View {
-    
     struct State: Equatable {
         let placeRows: [[Place]]
     }
-    
+
     let store: Store<DestinationDashboardState, DestinationDashboardAction>
-    
+
     var body: some View {
         WithViewStore(store.scope(state: DestinationDashboard.State.init)) { viewStore in
             VStack {
@@ -33,15 +25,17 @@ struct DestinationDashboard: View {
                         .frame(maxWidth: .infinity,
                                minHeight: 60,
                                maxHeight: 60)
-                    
+
                     HStack {
                         Image(uiImage: #imageLiteral(resourceName: "TaxiCar"))
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .padding(.leading, 4.0)
                             .frame(maxWidth: 70)
-                        
+
                         Text("Where to?")
+                            .font(.title3)
+                            .bold()
                         Spacer()
                     }
                 }
@@ -49,59 +43,66 @@ struct DestinationDashboard: View {
                 .onTapGesture {
                     viewStore.send(.whereToTap)
                 }
-                
-                ForEach(viewStore.placeRows, id: \.self) { (row) in
+
+                ForEach(viewStore.placeRows, id: \.self) { row in
                     HStack {
                         ForEach(row) { place in
                             CommonDestinationView(store: Store(initialState: place,
-                                                       reducer: commonDestinationReducer,
-                                                       environment: ()))
+                                                               reducer: commonDestinationReducer,
+                                                               environment: ()))
                                 .padding(4)
                                 .frame(maxWidth: 150, maxHeight: 120)
                         }
                     }
                     .padding([.leading, .trailing], 8)
                 }
-                
+
                 Spacer()
             }
-            .background(Color.gray)
+            .background(Color.offWhite)
+            .onAppear {
+                viewStore.send(.loadCommonDestinations)
+            }
         }
     }
 }
 
 extension DestinationDashboard.State {
     init(model: DestinationDashboardState) {
-        var rows = [[Place]]()
-        var places = model.places
-        for _ in 0..<2 {
-            let row = Array(places.prefix(3))
-            rows.append(row)
-            places = Array(places.dropFirst(3))
+        placeRows = Array(model.places.chunked(into: 3).prefix(5))
+    }
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
-        
-        placeRows = rows
     }
 }
 
 struct DestinationDashboard_Previews: PreviewProvider {
-    
     static var state: DestinationDashboardState {
         DestinationDashboardState(
             places: [
                 Place.banichki,
                 Place.banichki,
                 Place.banichki,
-                Place.banichki,
-            ])
+                Place.banichki
+            ],
+            region: .init())
     }
-    
+
     static var previews: some View {
         DestinationDashboard(
             store: Store<DestinationDashboardState,
-                         DestinationDashboardAction>(
+                DestinationDashboardAction>(
                 initialState: DestinationDashboard_Previews.state,
                 reducer: destinationDashboardReducer,
-                environment: ()))
+                environment: .mock))
     }
+}
+
+extension Color {
+    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
 }

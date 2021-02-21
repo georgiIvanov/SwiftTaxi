@@ -54,18 +54,23 @@ extension Place {
         }
     }
 
+    init(_ item: MKMapItem) {
+        let name = item.name ?? item.placemark.name ?? item.placemark.abbreviation
+        self.init(name: name, coordinate: item.placemark.coordinate)
+    }
+
     init(name: String, coordinate: CLLocationCoordinate2D) {
         self.init(name: name,
                   latitude: coordinate.latitude,
                   longitude: coordinate.longitude)
     }
-    
+
     init?(_ placemark: CLPlacemark) {
         guard let location = placemark.location else {
             print("Could not create Place with placemark:\n\(placemark)")
             return nil
         }
-        
+
         let name = placemark.name ?? placemark.abbreviation
         self.init(name: name, coordinate: location.coordinate)
     }
