@@ -47,9 +47,11 @@ struct DestinationDashboard: View {
                 ForEach(viewStore.placeRows, id: \.self) { row in
                     HStack {
                         ForEach(row) { place in
-                            CommonDestinationView(store: Store(initialState: place,
-                                                               reducer: commonDestinationReducer,
-                                                               environment: ()))
+                            CommonDestinationView(place: place,
+                                                  action: {
+                                                      viewStore.send(.pickCommonPlace(place))
+                                                  })
+
                                 .padding(4)
                                 .frame(maxWidth: 150, maxHeight: 120)
                         }

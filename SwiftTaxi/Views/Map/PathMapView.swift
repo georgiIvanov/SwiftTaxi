@@ -52,6 +52,7 @@ struct PathMapView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: MKMapView, context: Context) {
+        uiView.removeOverlays(uiView.overlays)
         uiView.addOverlay(polyline)
     }
 

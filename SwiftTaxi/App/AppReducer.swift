@@ -10,6 +10,7 @@ import Foundation
 import MapKit
 
 let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
+    contentViewReducer,
     locationReducer.pullback(state: \AppState.locationState,
                              action: /AppAction.location,
                              environment: {
@@ -17,7 +18,6 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
                                        geoCoder: $0.geoCoder,
                                        mainQueue: $0.mainQueue)
                              }),
-    contentViewReducer,
     destinationPickerReducer.pullback(state: \AppState.destinationPickerState,
                                       action: /AppAction.destinationPicker,
                                       environment: { .init(
@@ -51,6 +51,10 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
+    case .destinationDashboard(.pickCommonPlace(let place)):
+        state.step = .placeOrder
+        return .init(value: .showPath(from: state.locationState.locationPlace!,
+                                      to: place))
     case .showPath(let from, let to):
         state.pathMapState.region = state.locationState.region
         state.pathMapState.from = .init(coordinate: from.coordinate)
@@ -91,7 +95,7 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
         state.step = .placeOrder
         return .init(value: .showPath(from: state.destinationPickerState.fromPlace,
                                       to: state.destinationPickerState.toPlace))
-    
+
     case .location, .destinationPicker, .pathMap, .mapModalAction, .destinationDashboard:
         return .none
     }

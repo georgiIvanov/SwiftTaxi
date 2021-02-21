@@ -39,7 +39,6 @@
 		97B899A725DFC4DA00F4E195 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B899A625DFC4DA00F4E195 /* AppReducer.swift */; };
 		97BB57AC25DFCD7B00F8E80D /* CommonDestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57AB25DFCD7B00F8E80D /* CommonDestinationView.swift */; };
 		97BB57C225DFDBB700F8E80D /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57C125DFDBB700F8E80D /* Place.swift */; };
-		97BB57CE25DFDCFA00F8E80D /* CommonDestinationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */; };
 		97BB57D425DFEC7F00F8E80D /* DestinationDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57D325DFEC7F00F8E80D /* DestinationDashboard.swift */; };
 		97BB57DC25E009E800F8E80D /* DestinationDashboardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB57DB25E009E800F8E80D /* DestinationDashboardReducer.swift */; };
 		97E157C225E1440D006C29E1 /* DestinationPickerEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E157C125E1440D006C29E1 /* DestinationPickerEnvironment.swift */; };
@@ -101,7 +100,6 @@
 		97B899A625DFC4DA00F4E195 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		97BB57AB25DFCD7B00F8E80D /* CommonDestinationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDestinationView.swift; sourceTree = "<group>"; };
 		97BB57C125DFDBB700F8E80D /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
-		97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDestinationReducer.swift; sourceTree = "<group>"; };
 		97BB57D325DFEC7F00F8E80D /* DestinationDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationDashboard.swift; sourceTree = "<group>"; };
 		97BB57DB25E009E800F8E80D /* DestinationDashboardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationDashboardReducer.swift; sourceTree = "<group>"; };
 		97E157C125E1440D006C29E1 /* DestinationPickerEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationPickerEnvironment.swift; sourceTree = "<group>"; };
@@ -304,7 +302,6 @@
 			isa = PBXGroup;
 			children = (
 				97BB57AB25DFCD7B00F8E80D /* CommonDestinationView.swift */,
-				97BB57CD25DFDCFA00F8E80D /* CommonDestinationReducer.swift */,
 			);
 			path = CommonDestination;
 			sourceTree = "<group>";
@@ -472,7 +469,6 @@
 				97E157CA25E15339006C29E1 /* SearchTextField.swift in Sources */,
 				97550E1325E188180013DFB6 /* MapModalView.swift in Sources */,
 				97550E2625E257690013DFB6 /* MapModalState.swift in Sources */,
-				97BB57CE25DFDCFA00F8E80D /* CommonDestinationReducer.swift in Sources */,
 				97BB57C225DFDBB700F8E80D /* Place.swift in Sources */,
 				975BBAC325E0496B00873B9F /* BottomSheetView.swift in Sources */,
 				97B8999825DFC44400F4E195 /* AppState.swift in Sources */,

@@ -18,6 +18,7 @@ enum DestinationDashboardAction: Equatable {
     case whereToTap
     case loadCommonDestinations
     case populatePlaces([Place])
+    case pickCommonPlace(Place)
 }
 
 struct DestinationDashboardEnvironment {
@@ -40,6 +41,8 @@ let destinationDashboardReducer = Reducer<
             .eraseToEffect()
     case .populatePlaces(let places):
         state.places = places
+        return .none
+    case .pickCommonPlace:
         return .none
     }
 }
