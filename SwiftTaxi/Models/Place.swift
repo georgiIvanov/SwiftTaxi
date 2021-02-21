@@ -12,11 +12,23 @@ import MapKit
 struct Place: Identifiable, Equatable, Hashable {
     var id = UUID()
     let name: String
-    let latitude: Double
-    let longitude: Double
+    let location: CLLocation
+    
+    init(name: String, latitude: Double, longitude: Double) {
+        self.name = name
+        self.location = CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
+    var latitude: Double {
+        coordinate.latitude
+    }
+    
+    var longitude: Double {
+        coordinate.longitude
+    }
 
     var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        location.coordinate
     }
 }
 
@@ -55,6 +67,9 @@ extension Place {
 }
 
 extension Place {
+    static let borovo = Place(name: "Banichki",
+                              latitude: 42.6682,
+                              longitude: 23.2811)
     static let banichki = Place(name: "Banichki",
                                 latitude: 42.678750656166784,
                                 longitude: 23.28562151394663)

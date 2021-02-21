@@ -59,7 +59,7 @@ struct MapView: View {
                     Spacer()
                 }
                 VStack {
-                    Text(viewStore.locationName ?? "Unknown")
+                    Text(viewStore.locationPlace?.name ?? "Unknown")
                         .padding()
                         .background(Color.white)
 

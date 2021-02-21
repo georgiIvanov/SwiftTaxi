@@ -8,23 +8,18 @@
 import ComposableArchitecture
 import CoreLocation
 import Foundation
+import MapKit
+import Intents
+import Contacts
 
 struct GeoCoder {
-    var lookUpName: (CLLocation) -> Effect<String, Never>
-    var lookUpPlace: (CLLocation) -> Effect<Place, Never>
+    var lookUpLocation: (CLLocation) -> Effect<CLPlacemark, Never>
 }
 
 extension GeoCoder {
     static let live = GeoCoder(
-        lookUpName: { location in
+        lookUpLocation: { location in
             geocodeLookup(location)
-                .map{ $0.abbreviation }
-        },
-        lookUpPlace: { location in
-            GeoCoder.geocodeLookup(location)
-                .map(Place.init)
-                .compactMap{$0}
-                .eraseToEffect()
         }
     )
     
@@ -38,13 +33,14 @@ extension GeoCoder {
     }
 }
 
+class MockPlacemark: CLPlacemark {
+}
+
 extension GeoCoder {
     static let mock = GeoCoder(
-        lookUpName: { _ in
-            .init(value: "Over the rainbow")
-        },
-        lookUpPlace: { _ in
-            .init(value: .banichki)
+        lookUpLocation: { _ in
+            let placemark = MockPlacemark(location: CLLocation(), name: "Over the rainbow", postalAddress: nil)
+            return .init(value: placemark)
         }
     )
 }

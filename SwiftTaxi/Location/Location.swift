@@ -13,7 +13,7 @@ import MapKit
 struct LocationState: Equatable {
     var initialLocationLoaded = false
     var location = CLLocation()
-    var locationName: String?
+    var locationPlace: Place?
     var userCurrentLocation = CLLocation()
     var alert: AlertState<LocationAction>?
     var region = MKCoordinateRegion()
@@ -24,7 +24,7 @@ enum LocationAction: Equatable {
     case startUp
     case locationAuthorizationStatusResponse(CLAuthorizationStatus)
     case updateCurrentLocation(CLLocation)
-    case updateCurrentLocationName(String)
+    case locationLookupResponse(Place?)
     case locationManagerResponse(Result<LocationManager.Action, LocationManager.Error>)
     case reverseGeocodeLocation(CLLocation)
     case dismissAuthorizationStateAlert
@@ -89,16 +89,17 @@ let locationReducer = Reducer<LocationState, LocationAction, LocationEnvironment
 
         return .init(value: .reverseGeocodeLocation(location))
 
-    case .updateCurrentLocationName(let name):
-        state.locationName = name
+    case .locationLookupResponse(let place):
+        state.locationPlace = place
         return .none
 
     case .reverseGeocodeLocation(let location):
         return environment.geoCoder
-            .lookUpName(location)
+            .lookUpLocation(location)
+            .map(Place.init)
             .debounce(id: GeoCoderId(), for: 0.3, scheduler: environment.mainQueue)
             .receive(on: environment.mainQueue)
-            .map(LocationAction.updateCurrentLocationName)
+            .map(LocationAction.locationLookupResponse)
             .eraseToEffect()
 
     case .locationAuthorizationStatusResponse(let status):
@@ -166,7 +167,7 @@ extension MKCoordinateRegion: Equatable {
 extension LocationState {
     static let mock = LocationState(
         location: .borovo,
-        locationName: "Borovo",
+        locationPlace: .borovo,
         userCurrentLocation: .borovo,
         alert: nil,
         locationAuthorizationStatus: CLAuthorizationStatus.authorizedAlways
