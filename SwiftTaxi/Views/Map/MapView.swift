@@ -61,9 +61,9 @@ struct MapView: View {
                 VStack {
                     Text(viewStore.locationPlace?.name ?? "Unknown")
                         .padding(12)
-                        .background(Color.white)
+                        .background(Color(UIColor.systemBackground))
                         .cornerRadius(32)
-                        .shadow(color: Color.offWhite, radius: 6, x: 3, y: 8)
+                        .shadow(radius: 8)
 
                     Spacer()
                 }
