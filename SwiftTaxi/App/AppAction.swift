@@ -9,6 +9,7 @@ import CoreLocation
 import Foundation
 
 enum AppAction: Equatable {
+    case pathMap(PathMapAction)
     case location(LocationAction)
     case destinationDashboard(DestinationDashboardAction)
     case destinationPicker(DestinationPickerAction)

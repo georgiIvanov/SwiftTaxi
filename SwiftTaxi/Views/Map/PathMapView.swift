@@ -5,28 +5,29 @@
 //  Created by Nikolay Nikolaev Genov on 21.02.21.
 //
 
+import ComposableArchitecture
 import MapKit
 import SwiftUI
 
 struct PathContentView: View {
-    @State private var from = MKPlacemark(coordinate: Place.banichki.coordinate)
-    @State private var to = MKPlacemark(coordinate: Place.mallBulgaria.coordinate)
-    @State private var region = MKCoordinateRegion()
-    @State private var polyline = MKPolyline()
-
-    private let pathFinder = PathFinder()
+    let store: Store<PathMapState, PathMapAction>
 
     var body: some View {
-        VStack {
-            Button("Calculate route") {
-                pathFinder.findPath { route in
-                    polyline = route.polyline
+        WithViewStore(store) { viewStore in
+            VStack {
+                Button("Calculate route") {
+                    viewStore.send(.findPath)
                 }
+
+                PathMapView(region: viewStore.binding(get: \.region,
+                                                      send: { _ in .devnull }),
+                            polyline: viewStore.binding(get: \.polyline,
+                                                        send: { _ in .devnull }),
+                            from: viewStore.binding(get: \.from,
+                                                    send: { _ in .devnull }),
+                            to: viewStore.binding(get: \.to,
+                                                  send: { _ in .devnull }))
             }
-            PathMapView(region: $region,
-                        polyline: $polyline,
-                        from: $from,
-                        to: $to)
         }
     }
 }
@@ -72,6 +73,10 @@ struct PathMapView: UIViewRepresentable {
 
 struct PathContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PathContentView()
+        PathContentView(store: Store<PathMapState, PathMapAction>.init(
+            initialState: .mock,
+            reducer: pathMapReducer,
+            environment: .mock)
+        )
     }
 }

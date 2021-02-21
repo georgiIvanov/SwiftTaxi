@@ -27,22 +27,29 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     mapModalReducer.pullback(state: \AppState.mapModalState,
                              action: /AppAction.mapModalAction,
                              environment: {
-                                .init(locationManager: $0.locationManager,
-                                      geoCoder: $0.geoCoder,
-                                      mainQueue: $0.mainQueue)
+                                 .init(locationManager: $0.locationManager,
+                                       geoCoder: $0.geoCoder,
+                                       mainQueue: $0.mainQueue)
+                             }),
+    pathMapReducer.pullback(state: \AppState.pathMapState,
+                            action: /AppAction.pathMap,
+                            environment: { .init(
+                                pathFinder: $0.pathFinder,
+                                mainQueue: $0.mainQueue
+                            )
                             })
 )
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
-    case let .destinationPicker(.presentModalMap(present, direction)):
+    case .destinationPicker(.presentModalMap(let present, let direction)):
         state.step = present ? .pickModalMap(direction) : .pickDestination(direction)
         state.mapModalState = MapModalViewState(
             pickLocation: state.destinationPickerState.currentPickingPlace,
             direction: direction,
             locationState: state.locationState)
         return .none
-    case .location, .destinationPicker:
+    case .location, .destinationPicker, .pathMap:
         return .none
     case .destinationDashboard(.whereToTap):
         state.step = .pickDestination(.to)
@@ -54,7 +61,7 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
     case .mapModalAction(.closeMap):
         state.step = .pickDestination(state.mapModalState.direction)
         return .none
-    case .mapModalAction(_):
+    case .mapModalAction:
         return .none
     }
 }
