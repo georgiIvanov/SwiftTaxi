@@ -31,11 +31,13 @@ let destinationPickerReducer = Reducer<DestinationPickerState, DestinationPicker
         } else {
             return .none
         }
-    case .toTextChanged(let newText):
-        state.to = newText
-        return .init(value: .localSearch(newText))
-    case .fromTextChanged(let newText):
-        state.from = newText
+    case .textChanged(let newText, let direction):
+        switch direction {
+        case .from:
+            state.from = newText
+        case .to:
+            state.to = newText
+        }
         return .init(value: .localSearch(newText))
     case .searchResponse(let places):
         state.searchResult = places

@@ -5,47 +5,59 @@
 //  Created by Voro on 20.02.21.
 //
 
+import ComposableArchitecture
 import Foundation
 import SwiftUI
 
-struct SearchTextField<Content: View>: View {
-    
+struct SearchTextField: View {
     @Binding var text: String
     @Binding var isEditing: Bool
     let placeholder: String
     let prefixImageName: String?
-    let content: Content?
-    
-    
-    init(placeholder: String,
-         isEditing: Binding<Bool>,
+
+    @State var isEditingInternal: Bool = false
+    let viewStore: ViewStore<DestinationPickerState, DestinationPickerAction>
+
+    init(viewStore: ViewStore<DestinationPickerState, DestinationPickerAction>,
+         direction: Direction,
          text: Binding<String>,
-         @ViewBuilder content: () -> Content?,
          systemImage: String? = nil) {
-        self.placeholder = placeholder
-        self._text = text
-        self._isEditing = isEditing
-        self.prefixImageName = systemImage
-        self.content = content()
+        self.viewStore = viewStore
+        switch direction {
+        case .from:
+            placeholder = "Where from?"
+        case .to:
+            placeholder = "Where to?"
+        }
+        _text = text
+        _isEditing = viewStore.binding(get: { _ in false },
+                                       send: { _ in DestinationPickerAction.editing(direction)
+                                       })
+        prefixImageName = systemImage
     }
-    
+
     var body: some View {
         HStack {
-            if let name = prefixImageName {
-                Image(systemName: name)
-            }
-            
-            TextField(placeholder, text: $text, onEditingChanged: { (editing) in
+            Image(systemName: isEditingInternal ? "magnifyingglass" : "circle")
+
+            TextField(placeholder, text: $text, onEditingChanged: { editing in
                 isEditing = editing
+                isEditingInternal = editing
+
             })
-            .font(.body)
-            .padding(8)
-            .background(Color.green)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            if let content = content {
+                .font(.body)
+                .padding(8)
+                .background(Color.offWhite)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+
+            if isEditingInternal {
                 Divider()
                     .frame(width: 1, height: 50, alignment: .center)
-                content
+                Button(action: {
+                    viewStore.send(.presentModalMap(true, viewStore.lastEditing))
+                }, label: {
+                    Image(systemName: "map.fill")
+                })
             }
         }
     }
