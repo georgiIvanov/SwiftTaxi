@@ -13,14 +13,13 @@ import MapKit
 struct PathMapState: Equatable {
     var polyline = MKPolyline()
     var region = MKCoordinateRegion()
-    var from = MKPlacemark(coordinate: Place.banichki.coordinate)
-    var to = MKPlacemark(coordinate: Place.mallBulgaria.coordinate)
+    var from = MKPlacemark(coordinate: .init()) // Weird behaviour if empty
+    var to = MKPlacemark(coordinate: .init())
 }
 
 enum PathMapAction: Equatable {
     case findPath
     case pathFound(MKRoute)
-    case devnull
 }
 
 struct PathMapEnvironment {
@@ -32,15 +31,12 @@ let pathMapReducer = Reducer<PathMapState, PathMapAction, PathMapEnvironment> {
     state, action, environment in
 
     switch action {
-    case .devnull:
-        return .none
     case .findPath:
         return environment.pathFinder
             .findPath(state.from, state.to)
             .map(PathMapAction.pathFound)
             .eraseToEffect()
     case .pathFound(let route):
-        print(route)
         state.polyline = route.polyline
         return .none
     }
@@ -49,8 +45,7 @@ let pathMapReducer = Reducer<PathMapState, PathMapAction, PathMapEnvironment> {
 // MARK: - Mock
 
 extension PathMapState {
-    static let mock = PathMapState(
-    )
+    static let mock = PathMapState()
 }
 
 extension PathMapEnvironment {

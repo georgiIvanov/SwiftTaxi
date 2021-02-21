@@ -14,30 +14,23 @@ struct PathContentView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            VStack {
-                Button("Calculate route") {
-                    viewStore.send(.findPath)
-                }
-
-                PathMapView(region: viewStore.binding(get: \.region,
-                                                      send: { _ in .devnull }),
-                            polyline: viewStore.binding(get: \.polyline,
-                                                        send: { _ in .devnull }),
-                            from: viewStore.binding(get: \.from,
-                                                    send: { _ in .devnull }),
-                            to: viewStore.binding(get: \.to,
-                                                  send: { _ in .devnull }))
-            }
+            PathMapView(
+                region: viewStore.region,
+                from: viewStore.from,
+                to: viewStore.to,
+                polyline: viewStore.polyline
+            )
+            .ignoresSafeArea()
         }
     }
 }
 
 struct PathMapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
-    @Binding var region: MKCoordinateRegion
-    @Binding var polyline: MKPolyline
-    @Binding var from: MKPlacemark
-    @Binding var to: MKPlacemark
+    var region: MKCoordinateRegion
+    var from: MKPlacemark
+    var to: MKPlacemark
+    var polyline: MKPolyline
 
     func makeCoordinator() -> MapViewCoordinator {
         return MapViewCoordinator()
@@ -46,19 +39,13 @@ struct PathMapView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
-
         mapView.setRegion(region, animated: true)
         mapView.showAnnotations([from, to], animated: true)
         return mapView
     }
 
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        uiView.showAnnotations([from, to], animated: true)
         uiView.addOverlay(polyline)
-        uiView.setVisibleMapRect(
-            polyline.boundingMapRect,
-            edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
-            animated: true)
     }
 
     class MapViewCoordinator: NSObject, MKMapViewDelegate {

@@ -32,4 +32,13 @@ extension OrderStep {
             return false
         }
     }
+
+    var isShowPathPresented: Bool {
+        switch self {
+        case .placeOrder:
+            return true
+        default:
+            return false
+        }
+    }
 }

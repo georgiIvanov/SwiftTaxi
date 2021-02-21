@@ -11,16 +11,23 @@ import SwiftUI
 
 struct ContentView: View {
     let store: Store<AppState, AppAction>
-    
+
     var body: some View {
         GeometryReader { geometry in
             WithViewStore(store) { viewStore in
                 ZStack {
-                    MapView(
-                        store: store.scope(state: \.locationState,
-                                           action: { .location($0) })
-                    )
-                    
+                    if viewStore.step.isShowPathPresented {
+                        PathContentView(
+                            store: store.scope(state: \.pathMapState,
+                                               action: { .pathMap($0) })
+                        )
+                    } else {
+                        MapView(
+                            store: store.scope(state: \.locationState,
+                                               action: { .location($0) })
+                        )
+                    }
+
                     VStack {
                         BottomSheetView(
                             isOpen: viewStore.binding(get: \.step.isDashboardExpanded,

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import MapKit
 
 let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     locationReducer.pullback(state: \AppState.locationState,
@@ -42,6 +43,12 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
 let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, _ in
     switch action {
+    case .showPath(let from, let to):
+        state.pathMapState.region = state.locationState.region
+        state.pathMapState.from = .init(coordinate: from.coordinate)
+        state.pathMapState.to = .init(coordinate: to.coordinate)
+        state.step = .placeOrder
+        return .init(value: .pathMap(.findPath))
     case .destinationPicker(.presentModalMap(let present, let direction)):
         state.step = present ? .pickModalMap(direction) : .pickDestination(direction)
         state.mapModalState = MapModalViewState(
@@ -49,6 +56,9 @@ let contentViewReducer = Reducer<AppState, AppAction, AppEnvironment> { state, a
             direction: direction,
             locationState: state.locationState)
         return .none
+    case .destinationPicker(.destinationPick(let place)):
+        let currentPlace: Place = .init(name: "Current", coordinate: state.locationState.userCurrentLocation.coordinate)
+        return .init(value: .showPath(from: currentPlace, to: place))
     case .location, .destinationPicker, .pathMap:
         return .none
     case .destinationDashboard(.whereToTap):
