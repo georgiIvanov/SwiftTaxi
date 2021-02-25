@@ -19,31 +19,33 @@ struct DestinationDashboard: View {
     var body: some View {
         WithViewStore(store.scope(state: DestinationDashboard.State.init)) { viewStore in
             VStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.blue.opacity(0.73))
-                        .frame(maxWidth: .infinity,
-                               minHeight: 60,
-                               maxHeight: 60)
-
-                    HStack {
-                        Image(uiImage: #imageLiteral(resourceName: "TaxiCar"))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding(.leading, 4.0)
-                            .frame(maxWidth: 70)
-
-                        Text("Where to?")
-                            .font(.title3)
-                            .bold()
-                        Spacer()
-                    }
-                }
-                .padding(8)
-                .onTapGesture {
+                Button(action: {
                     viewStore.send(.whereToTap)
-                }
+                }) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.blue.opacity(0.73))
+                            .frame(maxWidth: .infinity,
+                                   minHeight: 60,
+                                   maxHeight: 60)
 
+                        HStack {
+                            Image(uiImage: #imageLiteral(resourceName: "TaxiCar"))
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .padding(.leading, 4.0)
+                                .frame(maxWidth: 70)
+
+                            Text("Where to?")
+                                .font(.title3)
+                                .bold()
+                                .foregroundColor(Color("WhereToTextColor"))
+                            Spacer()
+                        }
+                    }
+                    .padding(8)
+                }
+                
                 ForEach(viewStore.placeRows, id: \.self) { row in
                     HStack {
                         ForEach(row) { place in
@@ -95,13 +97,21 @@ struct DestinationDashboard_Previews: PreviewProvider {
             ],
             region: .init())
     }
+    
+    static var store: Store<DestinationDashboardState,
+                            DestinationDashboardAction> {
+        Store(
+            initialState: DestinationDashboard_Previews.state,
+            reducer: destinationDashboardReducer,
+            environment: .mock)
+    }
 
     static var previews: some View {
-        DestinationDashboard(
-            store: Store<DestinationDashboardState,
-                DestinationDashboardAction>(
-                initialState: DestinationDashboard_Previews.state,
-                reducer: destinationDashboardReducer,
-                environment: .mock))
+        Group {
+            DestinationDashboard(store: store)
+                .preferredColorScheme(.none)
+            DestinationDashboard(store: store)
+                .preferredColorScheme(.dark)
+        }
     }
 }
