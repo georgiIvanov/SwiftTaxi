@@ -40,21 +40,10 @@ struct MapModalView: View {
                             Spacer()
                         }
                         Spacer()
-
-                        Button(action: {
+                        
+                        CallToActionButton(text: "Done") {
                             viewStore.send(.doneButtonTap)
-                        }) {
-                            Text("Done")
-                                .font(.title3)
-                                .bold()
-                                .padding([.leading, .trailing],
-                                         geometry.size.width * 0.3)
-                                .padding([.top, .bottom], 12)
-                                .foregroundColor(.black)
                         }
-                        .background(Color.yellow)
-                        .contentShape(Rectangle())
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
                         .offset(y: -30)
                     }
                 }

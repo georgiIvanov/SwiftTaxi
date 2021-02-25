@@ -51,23 +51,9 @@ struct OrderView: View {
                         }.fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                        }) {
-                            Text("Order")
-                                .font(.title3)
-                                .bold()
-                                .padding([.leading, .trailing],
-                                         geometry.size.width * 0.3)
-                                .padding([.top, .bottom], 12)
-                                .foregroundColor(.black)
-                        }
-                        .background(Color.yellow)
-                        .contentShape(Rectangle())
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .offset(y: 4)
-                        Spacer()
+                    
+                    CallToActionButton(text: "Order") {
+
                     }
                 }
 
@@ -78,8 +64,30 @@ struct OrderView: View {
     }
 }
 
+struct CallToActionButton: View {
+    let text: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            action()
+        }) {
+            Text(text)
+                .font(.title3)
+                .bold()
+                .padding([.leading, .trailing], 120)
+                .padding([.top, .bottom], 12)
+                .foregroundColor(.black)
+        }
+        .background(Color.yellow)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView(store: Store(initialState: OrderState(), reducer: orderViewReducer, environment: ()))
+        Group {
+            OrderView(store: Store(initialState: OrderState(), reducer: orderViewReducer, environment: ()))
+        }
     }
 }
