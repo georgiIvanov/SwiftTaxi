@@ -66,7 +66,11 @@ struct DestinationDashboard: View {
             .background(Color(UIColor.secondarySystemBackground))
             .cornerRadius(16)
             .onAppear {
-                viewStore.send(.loadCommonDestinations)
+                // TODO [voro]: send load action whenever location is changed from
+                // its default value of (0.0, 0.0)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    viewStore.send(.loadCommonDestinations)
+                }
             }
         }
     }

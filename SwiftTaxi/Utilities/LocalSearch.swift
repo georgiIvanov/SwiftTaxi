@@ -34,7 +34,7 @@ extension LocalSearch {
             .future { callback in
                 let request = MKLocalSearch.Request()
                 request.region = region
-                request.pointOfInterestFilter = .init(including: [.airport, .zoo, .hotel, .nightlife])
+                request.pointOfInterestFilter = .init(including: [.zoo, .hotel, .museum, .park, .airport])
 
                 let localSearch = MKLocalSearch(request: request)
                 localSearch.start { response, _ in
