@@ -31,7 +31,7 @@ struct ContentView: View {
                     VStack {
                         BottomSheetView(
                             isOpen: viewStore.binding(get: \.step.isDashboardExpanded,
-                                                      send: { .dashboardShown($0) }),
+                                                      send: AppAction.dashboardShown),
                             maxHeight: geometry.size.height
                         ) {
                             BottomSheetContainer(store: store)

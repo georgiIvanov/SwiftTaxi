@@ -34,7 +34,7 @@ struct MapView: View {
         WithViewStore(store) { viewStore in
             ZStack {
                 Map(
-                    coordinateRegion: viewStore.binding(get: \.region, send: { .regionUpdated($0) }),
+                    coordinateRegion: viewStore.binding(get: \.region, send: LocationAction.regionUpdated ),
                     showsUserLocation: true,
                     annotationItems: places,
                     annotationContent: { place in
